@@ -21,7 +21,6 @@ import { translate } from '../locales/translate';
 export class UserService {
 
    constructor(
-      //update @InjectConnection() private connection: Connection,
       @InjectDataSource() private datasource: DataSource,
       @InjectRepository(User) private userRepository: Repository<User>,
       private roleService: RoleService,
@@ -32,7 +31,6 @@ export class UserService {
 
    async createUser(dto: UserDto, role: string, lang: string = 'uk', isgoogle: boolean = false): Promise<User> {
       try {
-         //update return await this.connection.transaction(async manager => {
          return await this.datasource.transaction(async manager => {
             const user = await manager.create(User);
             user.phone = dto.phone;
@@ -82,7 +80,6 @@ export class UserService {
 
    async updateUserPassword(id: number, password: string, lang: string = 'uk'): Promise<User> {
       try {
-         //update const user = await this.userRepository.findOne(id);
          const user = await this.userRepository.findOneBy({ id });
          user.password = await bcrypt.hash(password, 5);
          await this.userRepository.save(user);
@@ -94,7 +91,6 @@ export class UserService {
 
    async updateUserPhone(id: number, phone: string, lang: string = 'uk'): Promise<User> {
       try {
-         //update const user = await this.userRepository.findOne(id);
          const user = await this.userRepository.findOneBy({ id });
          user.phone = phone;
          await this.userRepository.save(user);
@@ -117,19 +113,16 @@ export class UserService {
    }
 
    async getUserById(id: number) {
-      //update return await this.userRepository.findOneOrFail(id);
       return await this.userRepository.findOneOrFail({ where: { id } });
    }
 
    async getUserProfileById(id: number) {
-      //update const user = await this.userRepository.findOneOrFail(id, { relations: ['profile'] });
       const user = await this.userRepository.findOneOrFail({ where: { id }, relations: { profile: true } });
       return { name: user.profile.name, phone: user.phone, email: user.email, gender: user.profile.gender, avatar: user.profile.avatar }
    }
 
    async addRole(dto: AddRoleDto, lang: string = 'uk') {
       try {
-         //update const user = await this.userRepository.findOneOrFail(dto.userId, { relations: ['roles'] });
          const user = await this.userRepository.findOneOrFail({ where: { id: dto.userId }, relations: ['roles'] });
          const role = await this.roleService.getRole(dto.name);
          if (user.roles.some(role_ => role_ == role)) {
@@ -145,7 +138,6 @@ export class UserService {
    }
 
    async ban(dto: BanDto, lang: string = 'uk') {
-      //update const user = await this.userRepository.findOne(dto.userId, { relations: ['bans'] });
       const user = await this.userRepository.findOne({ where: { id: dto.userId }, relations: ['bans'] });
       if (!user) {
          throw new HttpException(translate('messages.user_not_found', lang), HttpStatus.NOT_FOUND);

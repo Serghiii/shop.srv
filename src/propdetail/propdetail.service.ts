@@ -8,7 +8,6 @@ export class PropdetailService {
    constructor(@InjectRepository(PropDetail) private productRepository: Repository<PropDetail>) { }
 
    async getPropDetailIds(Ids: string[]) {
-      //update return await this.productRepository.findByIds(Ids, { select: ["id"] })
       return await this.productRepository.find({ where: { id: In(Ids) }, select: { id: true } })
    }
 }

@@ -15,7 +15,6 @@ export class RoleService {
    }
 
    async getRole(name: string) {
-      //update const role = await this.roleRepository.findOneOrFail({ 'name': name });
       const role = await this.roleRepository.findOneOrFail({ where: { name: name } });
       return role;
    }

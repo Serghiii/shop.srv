@@ -14,7 +14,6 @@ export class BanService {
    }
 
    async getBanByUserId(userid: number) {
-      //update return await this.activationRepository.findOne({ where: { userId: userid } });
       return await this.activationRepository.findOne({ where: { user: { id: userid } } });
    }
 
