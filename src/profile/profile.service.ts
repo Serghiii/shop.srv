@@ -10,7 +10,6 @@ import { translate } from '../locales/translate';
 @Injectable()
 export class ProfileService {
    constructor(
-      //update @InjectConnection() private connection: Connection,
       @InjectDataSource() private datasource: DataSource,
       @InjectRepository(Profile) private profileRepository: Repository<Profile>,
       private fileService: FileService,
@@ -18,7 +17,6 @@ export class ProfileService {
 
    async updateProfile(id: number, dto: ProfileDto, lang: string = 'uk'): Promise<Profile> {
       try {
-         //update const profile = await this.profileRepository.findOne(id);
          const profile = await this.profileRepository.findOne({ where: { id } });
          profile.name = dto.name;
          profile.gender = dto.gender;
@@ -33,7 +31,6 @@ export class ProfileService {
    async updateAvatar(id: number, data: string, lang: string = 'uk'): Promise<Profile> {
       try {
          return await this.datasource.transaction(async manager => {
-            //update const profile = await manager.findOne(Profile, id);
             const profile = await manager.findOne(Profile, { where: { id } });
             if (!profile.avatar || profile.avatar.includes('lh3.googleusercontent.com')) {
                profile.avatar = await randomUUID() + '.jpg';

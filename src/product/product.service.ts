@@ -34,7 +34,6 @@ export class ProductService {
       }
       cond.sort((a, b) => a > b ? 1 : -1)
 
-      //update const pri = getManager()
       const pri = this.datasource.manager
          .createQueryBuilder()
          .select("distinct pri.productId as Id")
@@ -251,7 +250,6 @@ export class ProductService {
       }
       prb.groupBy('pri.propdetail')
 
-      //update return await getManager()
       return this.datasource.manager
          .createQueryBuilder()
          .select("pr_a.Id as id, pr_a.name as name, pr_a.name_ru as name_ru, pr_a.prop as prop, pr_a.propname as propname, ifnull(pr_b.count, 0) as count")
@@ -294,7 +292,6 @@ export class ProductService {
    }
 
    async getCarts(Ids: number[]): Promise<Product[]> {
-      //update return await this.productRepository.findByIds(Ids)
       return await this.productRepository.find({ where: { id: In(Ids) } })
    }
 

@@ -12,8 +12,8 @@ export class AuthService {
    constructor(private userService: UserService,
       private jwtService: JwtService) { }
 
-   public async login(user: User, rememberme: boolean = false) {
-      return await this.generateToken(user, rememberme);
+   public login(user: User, rememberme: boolean = false) {
+      return this.generateToken(user, rememberme);
    }
 
    public async validateUser(username: string, password: string, lang: string = 'uk') {
@@ -41,10 +41,10 @@ export class AuthService {
       return { phone: user.phone, email: user.email };
    }
 
-   private async generateToken(user: User, rememberme: boolean = false) {
+   private generateToken(user: User, rememberme: boolean = false) {
       const payload = { id: user.id, phone: user.phone, email: user.email, roles: user.roles, profile: user.profile };
       return {
-         token: await this.jwtService.sign(payload, {
+         token: this.jwtService.sign(payload, {
             expiresIn: rememberme ? process.env.TOKEN_EXPIRATION_RM : process.env.TOKEN_EXPIRATION
          })
       };

@@ -7,7 +7,7 @@ export default {
       user_not_verified: 'Пользователь не верифицирован',
       user_not_found: 'Пользователь не найден',
       user_role_not_found: 'Пользователь или роль не найдены',
-      user_exist: 'Пользователь уже есть в базе',
+      user_exists: 'Пользователь уже есть в базе',
       user_banned: 'Ваш акаунт заблокировано, обратитесь в службу поддержки',
       login_password_not_corrected: 'Не корректный логин или пароль',
       create_user_error: 'Не удается создать пользователя',

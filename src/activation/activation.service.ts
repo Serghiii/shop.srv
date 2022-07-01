@@ -9,7 +9,6 @@ export class ActivationService {
    ) { }
 
    async getActivation(uuid: string) {
-      //update return await this.activationRepository.findOne(uuid, { relations: ['user'] });
       return await this.activationRepository.findOne({
          select: {
             uuid: true,

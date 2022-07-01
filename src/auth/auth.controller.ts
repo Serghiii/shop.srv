@@ -18,8 +18,8 @@ export class AuthController {
    @HttpCode(200)
    @UseGuards(LocalAuthGuard)
    @Post('/login')
-   async login(@Body() loginDto: LoginDto, @Request() req, @Res({ passthrough: true }) res: Response/*, @Language() locale*/) {
-      return await this.authService.login(req.user, loginDto.rememberme);
+   login(@Body() loginDto: LoginDto, @Request() req, @Res({ passthrough: true }) res: Response/*, @Language() locale*/) {
+      return this.authService.login(req.user, loginDto.rememberme);
    }
 
    @UseGuards(DoesUserExist)
@@ -31,10 +31,8 @@ export class AuthController {
    @HttpCode(200)
    @Post('/google')
    async google(@Body() data: GoogleDto, @Headers('accept-language') lang) {
-      console.log('lang', lang);
-
       const user = await this.googleService.register(data.token, lang)
-      return await this.authService.login(user);
+      return this.authService.login(user);
    }
 
 }

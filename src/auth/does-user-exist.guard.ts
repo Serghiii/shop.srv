@@ -12,9 +12,10 @@ export class DoesUserExist implements CanActivate {
       return this.validateRequest(request);
    }
 
-   async validateRequest(request) {
+   async validateRequest(request: any) {
       const user = await this.userService.getUserByLogin(request.body.phone, request.body.email);
-      if (user) throw new HttpException(translate('messages.user_exist', request.headers['lang']), HttpStatus.BAD_REQUEST);
+      // if (user) throw new HttpException(translate('messages.user_exist', request.headers['lang']), HttpStatus.BAD_REQUEST);
+      if (user) throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: 'User exists', error: 'messages.user_exists' }, HttpStatus.BAD_REQUEST);
       return true;
    }
 }
