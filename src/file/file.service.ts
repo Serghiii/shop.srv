@@ -1,14 +1,14 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import * as path from 'path';
 import * as fs from 'fs';
-import { translate } from '../locales/translate';
+import en from "src/locals/en";
 
 var Jimp = require('jimp');
 
 @Injectable()
 export class FileService {
 
-   async writeImage(fileName: string, filePath: string, data: string, lang: string = 'uk'): Promise<string> {
+   async writeImage(fileName: string, filePath: string, data: string): Promise<string> {
       try {
          const Path = await path.resolve(__dirname, '../..', filePath);
          if (!fs.existsSync(Path)) {
@@ -20,17 +20,17 @@ export class FileService {
          return path.join(Path, fileName);
       }
       catch (e) {
-         throw new HttpException(translate('file.write_error', lang), HttpStatus.INTERNAL_SERVER_ERROR)
+         throw new HttpException({ statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: en.file.write_error, error: 'file.write_error' }, HttpStatus.INTERNAL_SERVER_ERROR);
       }
    }
 
-   async removeFile(fileName: string, filePath: string, lang: string = 'uk') {
+   async removeFile(fileName: string, filePath: string) {
       try {
          const Path = await path.resolve(__dirname, '../..', filePath);
          fs.unlinkSync(path.join(Path, fileName));
       }
       catch (e) {
-         throw new HttpException(translate('file.delete_error', lang), HttpStatus.INTERNAL_SERVER_ERROR)
+         throw new HttpException({ statusCode: HttpStatus.INTERNAL_SERVER_ERROR, message: en.file.delete_error, error: 'file.delete_error' }, HttpStatus.INTERNAL_SERVER_ERROR);
       }
    }
 

@@ -5,7 +5,7 @@ import { DataSource, Repository } from 'typeorm';
 import { ProfileDto } from './dto/profile.dto';
 import { Profile } from './profile.entity';
 import { FileService } from '../file/file.service';
-import { translate } from '../locales/translate';
+import en from '../locals/en';
 
 @Injectable()
 export class ProfileService {
@@ -15,7 +15,7 @@ export class ProfileService {
       private fileService: FileService,
    ) { }
 
-   async updateProfile(id: number, dto: ProfileDto, lang: string = 'uk'): Promise<Profile> {
+   async updateProfile(id: number, dto: ProfileDto): Promise<Profile> {
       try {
          const profile = await this.profileRepository.findOne({ where: { id } });
          profile.name = dto.name;
@@ -24,23 +24,23 @@ export class ProfileService {
          await this.profileRepository.save(profile);
          return profile;
       } catch (e) {
-         throw new HttpException(translate('profile.update_error', lang), HttpStatus.BAD_REQUEST);
+         throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: en.profile.update_error, error: 'profile.update_error' }, HttpStatus.BAD_REQUEST)
       }
    }
 
-   async updateAvatar(id: number, data: string, lang: string = 'uk'): Promise<Profile> {
+   async updateAvatar(id: number, data: string): Promise<Profile> {
       try {
          return await this.datasource.transaction(async manager => {
             const profile = await manager.findOne(Profile, { where: { id } });
             if (!profile.avatar || profile.avatar.includes('lh3.googleusercontent.com')) {
-               profile.avatar = await randomUUID() + '.jpg';
+               profile.avatar = randomUUID() + '.jpg';
                await manager.save(profile);
             }
-            await this.fileService.writeImage(profile.avatar, 'static/avatars', data, lang)
+            await this.fileService.writeImage(profile.avatar, 'static/avatars', data)
             return profile;
          })
       } catch (e) {
-         throw new HttpException(translate('profile.update_error', lang), HttpStatus.BAD_REQUEST);
+         throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: en.profile.update_error, error: 'profile.update_error' }, HttpStatus.BAD_REQUEST)
       }
    }
 }

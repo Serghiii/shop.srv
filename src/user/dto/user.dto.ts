@@ -18,5 +18,12 @@ export class UserDto {
 
 export class ExUserDto extends UserDto {
    @IsString({ message: 'Повинно буди строкою' })
-   avatar: string
+   avatar: string;
+}
+
+export class PUserDto extends UserDto {
+   @IsString({ message: 'Повинно буди строкою' })
+   activation_on: string;
+   @IsString({ message: 'Повинно буди строкою' })
+   activation_ref: string;
 }

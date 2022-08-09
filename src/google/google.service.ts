@@ -1,10 +1,10 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { google, Auth } from 'googleapis';
 import * as bcrypt from 'bcryptjs';
 import { randomUUID } from 'crypto';
-import { translate } from '../locales/translate';
 import { ExUserDto } from '../user/dto/user.dto';
 import { UserService } from '../user/user.service';
+import en from '../locals/en';
 
 @Injectable()
 export class GoogleService {
@@ -29,9 +29,10 @@ export class GoogleService {
       return userInfoResponse.data;
    }
 
-   public async register(token: string, lang: string = 'uk') {
+   public async register(token: string) {
       const tokenInfo = await this.oauthClient.getTokenInfo(token);
-      if (!tokenInfo.email_verified) throw new UnauthorizedException({ message: translate('messages.user_not_verified', lang) })
+      if (!tokenInfo.email_verified)
+         throw new UnauthorizedException({ statusCode: HttpStatus.UNAUTHORIZED, message: en.messages.user_not_verified, error: 'messages.user_not_verified' });
       const user = await this.userService.getUserByMail(tokenInfo.email)
       if (user) {
          return user
@@ -44,7 +45,7 @@ export class GoogleService {
             password: await bcrypt.hash(randomUUID(), 5),
             avatar: userInfo.picture
          }
-         const user = await this.userService.createUser(newUser, 'USER', lang, true)
+         const user = await this.userService.createUser(newUser, 'USER', true)
          return await this.userService.getUserByMail(user.email)
       }
    }

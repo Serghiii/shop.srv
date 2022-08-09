@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { translate } from '../locales/translate';
+import { PUserDto, UserDto } from 'src/user/dto/user.dto';
+import en from '../locals/en';
 
 const nodemailer = require('nodemailer');
 
@@ -18,12 +19,12 @@ export class MailService {
       });
    }
 
-   async sendMail(to: string, link: string, lang: string = 'uk') {
-      return this.transporter.sendMail({
+   async sendMail(to: string, link: string, dto: UserDto) {
+      return await this.transporter.sendMail({
          from: process.env.SMTP_USER,
          to,
-         subject: translate('mail.activation_on', lang) + process.env.API_URL + ' ✔',
-         html: `<div><h2>${translate('mail.activation_ref', lang)}</h2><a href="${link}">${link}</a></a></div>`
+         subject: (dto as PUserDto).activation_on ? (dto as PUserDto).activation_on : en.mail.activation_on + process.env.API_URL + ' ✔',
+         html: `<div><h2>${(dto as PUserDto).activation_ref ? (dto as PUserDto).activation_ref : en.mail.activation_ref}</h2><a href="${link}">${link}</a></a></div>`
       });
    }
 

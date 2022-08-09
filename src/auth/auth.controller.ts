@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res, Request, UseGuards, HttpCode, Headers } from '@nestjs/common';
+import { Body, Controller, Post, Res, Request, UseGuards, HttpCode } from '@nestjs/common';
 import { Response } from 'express';
 import { GoogleService } from '../google/google.service';
 import { UserDto } from '../user/dto/user.dto';
@@ -18,20 +18,20 @@ export class AuthController {
    @HttpCode(200)
    @UseGuards(LocalAuthGuard)
    @Post('/login')
-   login(@Body() loginDto: LoginDto, @Request() req, @Res({ passthrough: true }) res: Response/*, @Language() locale*/) {
-      return this.authService.login(req.user, loginDto.rememberme);
+   login(@Body() data: LoginDto, @Request() req, @Res({ passthrough: true }) res: Response) {
+      return this.authService.login(req.user, data.rememberme);
    }
 
    @UseGuards(DoesUserExist)
    @Post('/register')
-   async register(@Body() userDto: UserDto, @Headers('accept-language') lang) {
-      return await this.authService.register(userDto, lang);
+   async register(@Body() data: UserDto) {
+      return await this.authService.register(data);
    }
 
    @HttpCode(200)
    @Post('/google')
-   async google(@Body() data: GoogleDto, @Headers('accept-language') lang) {
-      const user = await this.googleService.register(data.token, lang)
+   async google(@Body() data: GoogleDto) {
+      const user = await this.googleService.register(data.token)
       return this.authService.login(user);
    }
 

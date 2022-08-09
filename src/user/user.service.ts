@@ -15,7 +15,7 @@ import { User } from './user.entity';
 import { Profile } from '../profile/profile.entity';
 import * as bcrypt from 'bcryptjs';
 import { Cart } from '../cart/cart.entity';
-import { translate } from '../locales/translate';
+import en from '../locals/en';
 
 @Injectable()
 export class UserService {
@@ -29,7 +29,7 @@ export class UserService {
       private mailService: MailService,
    ) { }
 
-   async createUser(dto: UserDto, role: string, lang: string = 'uk', isgoogle: boolean = false): Promise<User> {
+   async createUser(dto: UserDto, role: string, isgoogle: boolean = false): Promise<User> {
       try {
          return await this.datasource.transaction(async manager => {
             const user = manager.create(User);
@@ -54,17 +54,16 @@ export class UserService {
                activation.user = res;
                activation.uuid = randomUUID();
                await manager.save(activation);
-               await this.mailService.sendMail(user.email, `${process.env.API_URL}/user/activate/${activation.uuid}`, lang)
+               await this.mailService.sendMail(user.email, `${process.env.API_URL}/user/activate/${activation.uuid}`, dto)
             }
             return res;
          });
       } catch (e) {
-         // throw new HttpException(translate('messages.create_user_error', lang), HttpStatus.BAD_REQUEST);
-         throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: 'User creation error', error: 'create_user_error' }, HttpStatus.BAD_REQUEST);
+         throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: en.messages.create_user_error, error: 'messages.create_user_error' }, HttpStatus.BAD_REQUEST);
       }
    }
 
-   async activateUser(uuid: string, lang: string = 'uk'): Promise<User> {
+   async activateUser(uuid: string): Promise<User> {
       try {
          return await this.datasource.transaction(async manager => {
             const activation = await this.activationService.getActivation(uuid);
@@ -75,32 +74,29 @@ export class UserService {
             return user;
          })
       } catch (e) {
-         // throw new HttpException(translate('messages.activate_user_error', lang), HttpStatus.BAD_REQUEST);
-         throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: 'User activation error', error: 'activate_user_error' }, HttpStatus.BAD_REQUEST);
+         throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: en.messages.activate_user_error, error: 'messages.activate_user_error' }, HttpStatus.BAD_REQUEST);
       }
    }
 
-   async updateUserPassword(id: number, password: string, lang: string = 'uk'): Promise<User> {
+   async updateUserPassword(id: number, password: string): Promise<User> {
       try {
          const user = await this.userRepository.findOneBy({ id });
          user.password = await bcrypt.hash(password, 5);
          await this.userRepository.save(user);
          return user;
       } catch (e) {
-         // throw new HttpException(translate('messages.password_change_error', lang), HttpStatus.BAD_REQUEST);
-         throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: 'Password change error', error: 'password_change_error' }, HttpStatus.BAD_REQUEST);
+         throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: en.messages.password_change_error, error: 'messages.password_change_error' }, HttpStatus.BAD_REQUEST);
       }
    }
 
-   async updateUserPhone(id: number, phone: string, lang: string = 'uk'): Promise<User> {
+   async updateUserPhone(id: number, phone: string): Promise<User> {
       try {
          const user = await this.userRepository.findOneBy({ id });
          user.phone = phone;
          await this.userRepository.save(user);
          return user;
       } catch (e) {
-         // throw new HttpException(translate('messages.phone_change_error', lang), HttpStatus.BAD_REQUEST);
-         throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: 'Phone change error', error: 'phone_change_error' }, HttpStatus.BAD_REQUEST);
+         throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: en.messages.phone_change_error, error: 'messages.phone_change_error' }, HttpStatus.BAD_REQUEST);
       }
    }
 
@@ -125,7 +121,7 @@ export class UserService {
       return { name: user.profile.name, phone: user.phone, email: user.email, gender: user.profile.gender, avatar: user.profile.avatar }
    }
 
-   async addRole(dto: AddRoleDto, lang: string = 'uk') {
+   async addRole(dto: AddRoleDto) {
       try {
          const user = await this.userRepository.findOneOrFail({ where: { id: dto.userId }, relations: ['roles'] });
          const role = await this.roleService.getRole(dto.name);
@@ -137,20 +133,17 @@ export class UserService {
          this.userRepository.save(user);
          return dto;
       } catch (e) {
-         // throw new HttpException(translate('messages.user_role_not_found', lang), HttpStatus.NOT_FOUND);
-         throw new HttpException({ statusCode: HttpStatus.NOT_FOUND, message: 'User role not found', error: 'user_role_not_found' }, HttpStatus.NOT_FOUND);
+         throw new HttpException({ statusCode: HttpStatus.NOT_FOUND, message: en.messages.role_not_found, error: 'messages.role_not_found' }, HttpStatus.NOT_FOUND);
       }
    }
 
-   async ban(dto: BanDto, lang: string = 'uk') {
+   async ban(dto: BanDto) {
       const user = await this.userRepository.findOne({ where: { id: dto.userId }, relations: ['bans'] });
       if (!user) {
-         // throw new HttpException(translate('messages.user_not_found', lang), HttpStatus.NOT_FOUND);
-         throw new HttpException({ statusCode: HttpStatus.NOT_FOUND, message: 'User not found', error: 'user_not_found' }, HttpStatus.NOT_FOUND);
+         throw new HttpException({ statusCode: HttpStatus.NOT_FOUND, message: en.messages.user_not_found, error: 'messages.user_not_found' }, HttpStatus.NOT_FOUND);
       }
       if (user.ban) {
-         // throw new HttpException(translate('messages.user_banned', lang), HttpStatus.BAD_REQUEST);
-         throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: 'User banned', error: 'user_banned' }, HttpStatus.BAD_REQUEST);
+         throw new HttpException({ statusCode: HttpStatus.BAD_REQUEST, message: en.messages.user_banned, error: 'messages.user_banned' }, HttpStatus.BAD_REQUEST);
       }
       return await this.banService.createBan(user, dto.reason);
    }

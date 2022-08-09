@@ -16,8 +16,8 @@ export class UserController {
 
    @Get('/activate/:value')
    @Render('registered') // підключення шаблонізатора
-   async activate(@Param('value') value: string, @Headers('accept-language') lang) {
-      const res = await this.userService.activateUser(value, lang);
+   async activate(@Param('value') value: string) {
+      const res = await this.userService.activateUser(value);
       return { mail: res.email, phone: res.phone }
    }
 
@@ -39,36 +39,36 @@ export class UserController {
    @hasRole("USER")
    @Post('/changepassword')
    @UseInterceptors(ClassSerializerInterceptor) // виключити пароль із відповіді
-   async changePassword(@Headers('Authorization') auth: string, @Body() { password }, @Headers('accept-language') lang) {
+   async changePassword(@Headers('Authorization') auth: string, @Body() { password }) {
       const { id } = await <any>this.jwtServ.decode(await auth.replace('Bearer', '').trim());
-      return this.userService.updateUserPassword(id, password, lang);
+      return this.userService.updateUserPassword(id, password);
    }
 
    @hasRole("USER")
    @Post('/changeprofile')
-   async changeProfile(@Headers('Authorization') auth: string, @Body() profile: ProfileDto, @Headers('accept-language') lang) {
+   async changeProfile(@Headers('Authorization') auth: string, @Body() profile: ProfileDto) {
       const user: any = await this.jwtServ.decode(await auth.replace('Bearer', '').trim());
-      if (profile.phone) this.userService.updateUserPhone(user.id, profile.phone, lang)
-      return this.profileService.updateProfile(user.profile.id, profile, lang);
+      if (profile.phone) this.userService.updateUserPhone(user.id, profile.phone)
+      return this.profileService.updateProfile(user.profile.id, profile);
    }
 
    @hasRole("USER")
    @Post('/changeavatar')
-   async changeAvatar(@Headers('Authorization') auth: string, @Body() profile: any, @Headers('accept-language') lang) {
+   async changeAvatar(@Headers('Authorization') auth: string, @Body() profile: any) {
       const user: any = await this.jwtServ.decode(await auth.replace('Bearer', '').trim());
-      return this.profileService.updateAvatar(user.profile.id, profile.avatar, lang);
+      return this.profileService.updateAvatar(user.profile.id, profile.avatar);
    }
 
    @hasRole("ADMIN")
    @Post('/role')
-   async addRole(@Body() dto: AddRoleDto, @Headers('accept-language') lang) {
-      return this.userService.addRole(dto, lang);
+   async addRole(@Body() dto: AddRoleDto) {
+      return this.userService.addRole(dto);
    }
 
    @hasRole("ADMIN")
    @Post('/ban')
-   async ban(@Body() dto: BanDto, @Headers('accept-language') lang) {
-      return this.userService.ban(dto, lang);
+   async ban(@Body() dto: BanDto) {
+      return this.userService.ban(dto);
    }
 
 }
