@@ -1,9 +1,10 @@
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import { json, urlencoded } from 'express';
+// import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const PORT = process.env.PORT || 5000;
@@ -19,6 +20,16 @@ async function bootstrap() {
   app.use(json({ limit: '2mb' }));
   app.use(urlencoded({ extended: true, limit: '2mb' }));
   app.useGlobalPipes(new ValidationPipe());
+
+  // const config = new DocumentBuilder()
+  //   .setTitle('Server')
+  //   .setDescription('Server API description')
+  //   .setVersion('1.0')
+  //   .addTag('server')
+  //   .build();
+  // const document = SwaggerModule.createDocument(app, config);
+  // SwaggerModule.setup('api', app, document);
+
   await app.listen(PORT, () => console.log(`Started at port: ${PORT}`));
 }
 bootstrap();

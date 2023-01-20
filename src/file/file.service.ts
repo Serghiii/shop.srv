@@ -1,22 +1,21 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import * as path from 'path';
-import * as fs from 'fs';
-import en from "src/locals/en";
-
-var Jimp = require('jimp');
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common"
+import * as path from 'path'
+import * as fs from 'fs'
+import en from "src/locals/en"
 
 @Injectable()
 export class FileService {
 
-   async writeImage(fileName: string, filePath: string, data: string): Promise<string> {
+   async writeFile(fileName: string, filePath: string, data: string | NodeJS.ArrayBufferView): Promise<string> {
       try {
-         const Path = await path.resolve(__dirname, '../..', filePath);
+         const Path = path.resolve(__dirname, '../..', filePath);
          if (!fs.existsSync(Path)) {
-            await fs.mkdirSync(Path, { recursive: true });
+            fs.mkdirSync(Path, { recursive: true });
          }
-         await Jimp.read(await Buffer.from(data, 'base64')).then((image: any) => {
-            image.quality(10).writeAsync(path.join(Path, fileName));
-         });
+         // await Jimp.read(Buffer.from(data, 'base64')).then((image: any) => {
+         //    image.quality(10).writeAsync(path.join(Path, fileName));
+         // });
+         fs.writeFileSync(path.join(Path, fileName), data)
          return path.join(Path, fileName);
       }
       catch (e) {

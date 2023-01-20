@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RoleDto } from './dto/role.dto';
+import { RoleDto } from './role.dto';
 import { Role } from './role.entity';
 
 @Injectable()

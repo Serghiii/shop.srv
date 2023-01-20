@@ -292,7 +292,18 @@ export class ProductService {
    }
 
    async getCarts(Ids: number[]): Promise<Product[]> {
-      return await this.productRepository.find({ where: { id: In(Ids) } })
+      return await this.productRepository.find({
+         select: {
+            id: true,
+            code: true,
+            name: true,
+            amount: true,
+            price: true,
+            priceold: true,
+            pic: true
+         },
+         where: { id: In(Ids) }
+      })
    }
 
 }

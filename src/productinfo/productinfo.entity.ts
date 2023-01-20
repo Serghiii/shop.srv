@@ -1,5 +1,4 @@
 import { Product } from "../product/product.entity";
-import { ProductPics } from "../productpics/productpics.entity";
 import { Prop } from "../prop/prop.entity";
 import { PropDetail } from "../propdetail/propdetail.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -18,9 +17,6 @@ export class ProductInfo {
 
    @ManyToOne(() => PropDetail, propdetail => propdetail.productinfo, { nullable: false })
    propdetail: PropDetail;
-
-   @OneToMany(() => ProductPics, productpics => productpics.productinfo)
-   productpics: ProductPics[];
 
    @ManyToOne(() => Product, product => product.productinfo, { nullable: false, onDelete: 'CASCADE' })
    product: Product;

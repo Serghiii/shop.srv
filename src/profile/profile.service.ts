@@ -36,7 +36,7 @@ export class ProfileService {
                profile.avatar = randomUUID() + '.jpg';
                await manager.save(profile);
             }
-            await this.fileService.writeImage(profile.avatar, 'static/avatars', data)
+            await this.fileService.writeFile(profile.avatar, 'static/avatars', Buffer.from(data, 'base64'))
             return profile;
          })
       } catch (e) {

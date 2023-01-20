@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # local env files
 .env
+
+# src
+#/src/data-source

@@ -2,6 +2,7 @@ import { Group } from "../group/group.entity";
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { CartDetails } from "../cartdetails/cartdetails.entity";
 import { ProductInfo } from "../productinfo/productinfo.entity";
+import { ProductPics } from "src/productpics/productpics.entity";
 
 
 @Entity({ name: "products" })
@@ -43,5 +44,8 @@ export class Product {
 
    @OneToMany(() => ProductInfo, productinfo => productinfo.product)
    productinfo: ProductInfo[];
+
+   @OneToMany(() => ProductPics, productpics => productpics.product)
+   productpics: ProductPics[];
 
 }

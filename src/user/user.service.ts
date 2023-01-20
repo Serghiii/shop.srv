@@ -5,7 +5,7 @@ import { randomUUID } from 'crypto';
 import { Activation } from '../activation/activation.entity';
 import { ActivationService } from '../activation/activation.service';
 import { BanService } from '../ban/ban.service';
-import { BanDto } from '../ban/dto/ban.dto';
+import { BanDto } from '../ban/ban.dto';
 import { MailService } from '../mail/mail.service';
 import { RoleService } from '../role/role.service';
 import { DataSource, Repository } from 'typeorm';
