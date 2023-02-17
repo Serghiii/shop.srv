@@ -1,3 +1,4 @@
+import dataSource from './db/datasource'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 // import { ServeStaticModule } from '@nestjs/serve-static'
@@ -20,8 +21,6 @@ import { PropModule } from "./prop/prop.module"
 import { PropdetailModule } from "./propdetail/propdetail.module"
 import { RoleModule } from "./role/role.module"
 import { UserModule } from "./user/user.module"
-import Entities from './db/entities'
-import Migrations from './db/migrations'
 
 @Module({
   imports: [
@@ -34,17 +33,11 @@ import Migrations from './db/migrations'
     //   exclude: ['/api*'],
     // }),
     TypeOrmModule.forRoot({
-      type: 'mysql',
+      ...dataSource.options,
+      // @ts-ignore
       host: process.env.DB_HOST,
-      port: Number(process.env.DB_PORT),
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_DB,
-      entities: Entities,
-      migrations: Migrations,
+      logging: process.env.LOGGING === 'true',
       migrationsRun: process.env.MIGRATIONS_RUN === 'true',
-      charset: process.env.DB_CHARSET,
-      timezone: process.env.DB_TIMEZONE,
       synchronize: process.env.SYNCHRONIZE === 'true'
     }),
     ActivationModule,

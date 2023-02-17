@@ -1,8 +1,8 @@
-src
-test
-dbschema.html
-node_modules
 .vscode
 .git
 .gitignore
+node_modules
 Dockerfile
+src
+test
+dbschema.html

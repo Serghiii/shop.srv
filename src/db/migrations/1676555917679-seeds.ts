@@ -60,9 +60,9 @@ export class seeds1676555917679 implements MigrationInterface {
         await queryRunner.query("INSERT INTO `shop`.`productinfo` (`value`, `propId`, `propdetailId`, `productId`) VALUES ('4 Гб',2,'ram-val_4gb',11)");
         await queryRunner.query("INSERT INTO `shop`.`productinfo` (`value`, `propId`, `propdetailId`, `productId`) VALUES ('Xiaomi',1,'brand-xiaomi',12)");
         await queryRunner.query("INSERT INTO `shop`.`productinfo` (`value`, `propId`, `propdetailId`, `productId`) VALUES ('4 Гб',2,'ram-val_4gb',12)");
-        await queryRunner.query("INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('1.webp',1)");
-        await queryRunner.query("INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('1.webp',2)");
-        await queryRunner.query("INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('1.webp',3)");
+        await queryRunner.query("INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('1.jpg',1)");
+        await queryRunner.query("INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('2.jpg',2)");
+        await queryRunner.query("INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('3.jpg',3)");
         await queryRunner.query("INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('85cd9a79ecf7409f15e5031e39536d48.jpg',4)");
         await queryRunner.query("INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('5fe4217dfceb0a74c640a2e6d7badc6f.jpg',4)");
         await queryRunner.query("INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('0304c6b0fd95a1b9d42c1c43288b0298.jpg',4)");
@@ -118,7 +118,9 @@ export class seeds1676555917679 implements MigrationInterface {
         await queryRunner.query("DELETE FROM `shop`.`productpics` WHERE (`pic`='0304c6b0fd95a1b9d42c1c43288b0298.jpg')");
         await queryRunner.query("DELETE FROM `shop`.`productpics` WHERE (`pic`='c72a970d3e7c9e5afb5a5be1384019dd.jpg')");
         await queryRunner.query("DELETE FROM `shop`.`productpics` WHERE (`pic`='1ed5c2cdb65e73fbd52ac21a63115bba.jpg')");
-        await queryRunner.query("DELETE FROM `shop`.`productpics` WHERE (`pic`='1.webp')");
+        await queryRunner.query("DELETE FROM `shop`.`productpics` WHERE (`pic`='1.JPG')");
+        await queryRunner.query("DELETE FROM `shop`.`productpics` WHERE (`pic`='2.JPG')");
+        await queryRunner.query("DELETE FROM `shop`.`productpics` WHERE (`pic`='3.JPG')");
         await queryRunner.query("DELETE FROM `shop`.`productinfo` WHERE (`propdetailId`='brand-samsung' AND `productId`=1)");
         await queryRunner.query("DELETE FROM `shop`.`productinfo` WHERE (`propdetailId`='ram-val_4gb' AND `productId`=1)");
         await queryRunner.query("DELETE FROM `shop`.`productinfo` WHERE (`propdetailId`='barand-apple' AND `productId`=2)");

@@ -19,26 +19,26 @@ export class ProductService {
       }
       let opt2 = {
          where: { id, group: { ref } },
-         relations: ["group", "productinfo", "productinfo.propdetail"]
+         relations: ["group", "productpics", "productinfo", "productinfo.propdetail"]
       }
       return await this.productRepository.find(ref.length ? opt2 : opt1)
    }
 
    async getAll(ref: string, q: any): Promise<{ results: Product[], count: number }> {
-      let cond: [] | any = []
+      let cond: string[] = []
 
       for (let key in q) {
          if (key.toLowerCase() !== 'skip' && key.toLowerCase() !== 'limit') {
             cond.push(key)
          }
       }
-      cond.sort((a, b) => a > b ? 1 : -1)
+      cond.sort((a: string, b: string) => a > b ? 1 : -1)
 
       const pri = this.datasource.manager
          .createQueryBuilder()
          .select("distinct pri.productId as Id")
          .from(ProductInfo, 'pri')
-      cond.forEach(el => {
+      cond.forEach((el: string) => {
          const dt: string[] = el.split("-")
          if (dt.length) {
             for (let i = 1; i < dt.length; i++) {
@@ -47,7 +47,7 @@ export class ProductService {
          }
       })
       let first: boolean = true
-      cond.forEach(el => {
+      cond.forEach((el: string) => {
          if (first) {
             first = false
             pri.where(new Brackets(
@@ -145,15 +145,15 @@ export class ProductService {
    }
 
    async getFilters(ref: string, q: {}): Promise<any> {
-      let cond: [] | any = []
+      let cond: string[] = []
       for (let key in q) {
          cond.push(key)
       }
-      cond.sort((a, b) => a > b ? 1 : -1)
+      cond.sort((a: string, b: string) => a > b ? 1 : -1)
 
       let gcond: [[]] | any = []
       let tmpEl: any;
-      cond?.forEach((el: any) => {
+      cond.forEach((el: any) => {
          if (!el.includes(tmpEl)) {
             tmpEl = el.split('-')[0]
             let newGcond = cond.filter((item: any) => item.includes(tmpEl))
@@ -196,13 +196,13 @@ export class ProductService {
 
       if (gcond.length) {
          let first: boolean = true
-         gcond.forEach(el => {
+         gcond.forEach((el: any[]) => {
             if (first) {
                first = false
                prbsq.andWhere(new Brackets(
                   qb => {
                      let first2: boolean = true
-                     el[1].forEach(el2 => {
+                     el[1].forEach((el2: any) => {
                         if (first2) {
                            first2 = false
                            qb.where(`pri.propdetailId = "${el2}"`)
@@ -216,7 +216,7 @@ export class ProductService {
                prbsq.andWhere(new Brackets(
                   qb => {
                      let first2: boolean = true
-                     el[1].forEach(el2 => {
+                     el[1].forEach((el2: any) => {
                         if (first2) {
                            first2 = false
                            qb.where(`${el[0]}.propdetailId = "${el2}"`)
