@@ -27,7 +27,7 @@ export class UserService {
       private activationService: ActivationService,
       private banService: BanService,
       private mailService: MailService,
-   ) { }
+   ) {}
 
    async createUser(dto: UserDto, role: string, isgoogle: boolean = false): Promise<User> {
       try {
@@ -119,6 +119,10 @@ export class UserService {
    async getUserProfileById(id: number) {
       const user = await this.userRepository.findOneOrFail({ where: { id }, relations: { profile: true } });
       return { name: user.profile.name, phone: user.phone, email: user.email, gender: user.profile.gender, avatar: user.profile.avatar }
+   }
+
+   async getUserFirmsById(id: number) {
+      return ((await this.userRepository.findOneOrFail({ where: { id }, relations: { firms: true } })).firms);
    }
 
    async addRole(dto: AddRoleDto) {

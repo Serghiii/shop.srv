@@ -11,9 +11,6 @@ export class Prop {
    @Column({ type: 'varchar', nullable: false })
    name: string;
 
-   @Column({ type: 'varchar', nullable: false })
-   name_ru: string;
-
    @OneToMany(() => ProductInfo, productinfo => productinfo.prop)
    productinfo: ProductInfo[];
 

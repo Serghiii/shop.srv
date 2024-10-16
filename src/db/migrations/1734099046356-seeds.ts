@@ -1,25 +1,31 @@
-import { MigrationInterface, QueryRunner } from "typeorm"
+import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class seeds1676555917679 implements MigrationInterface {
+export class Seeds1734099046356 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query("INSERT INTO `shop`.`roles` (`name`, `description`) VALUES ('USER', 'Користувач')");
+        await queryRunner.query("INSERT INTO `shop`.`roles` (`name`, `description`) VALUES ('EDITOR', 'Редактор')");
         await queryRunner.query("INSERT INTO `shop`.`roles` (`name`, `description`) VALUES ('ADMIN', 'Адміністратор')");
-        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `name_ru`, `ref`, `pic`) VALUES ('Телефони та аксесуари','Телефоны и аксесуары','smartphones-mobiles-accessories','1.svg')");
-        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `name_ru`, `ref`, `pic`) VALUES ('Ноутбуки, компьютери та мфу','Ноутбуки, компьютеры та мфу','notes','2.svg')");
-        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `name_ru`, `ref`, `pic`) VALUES ('ТВ та електроніка','ТВ и электроника','tv','3.svg')");
-        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `name_ru`, `ref`, `pic`) VALUES ('Аудіо техніка','Аудио техника','audio','4.svg')");
-        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `name_ru`, `ref`, `pic`) VALUES ('Побутова техніка','Бытовая техника','appliances','5.svg')");
-        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `name_ru`, `ref`, `pic`) VALUES ('Сантехніка','Сантехника','plumbing','6.svg')");
-        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `name_ru`, `ref`, `pic`) VALUES ('Автотовари','Автотовары','auto','7.svg')");
-        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `name_ru`, `ref`, `pic`) VALUES ('Велотовари','Велотовары','bicycles','8.svg')");
-        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `name_ru`, `ref`, `pic`) VALUES ('Канцтовари','Канцтовары','stationery','9.svg')");
-        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `name_ru`, `ref`, `pic`) VALUES ('Сад і город','Сад и огород','garden','10.svg')");
-        await queryRunner.query("INSERT INTO `shop`.`groups` (`name`, `name_ru`, `ref`, `pic`, `categoryId`) VALUES ('Смартфони','Смартфоны','smartphones','1.jpg',1)");
-        await queryRunner.query("INSERT INTO `shop`.`groups` (`name`, `name_ru`, `ref`, `pic`, `categoryId`) VALUES ('Мобільні телефони','Мобильные телефоны','mobiles','2.jpg',1)");
-        await queryRunner.query("INSERT INTO `shop`.`groups` (`name`, `name_ru`, `ref`, `pic`, `categoryId`) VALUES ('Офісні телефони','Офисные телефоны','phones','3.jpg',1)");
-        await queryRunner.query("INSERT INTO `shop`.`props` (`name`, `name_ru`) VALUES ('Бренд','Бренд')");
-        await queryRunner.query("INSERT INTO `shop`.`props` (`name`, `name_ru`) VALUES ('Об\"єм вбудованої пам\"яті','Объем встроенной памяти')");
+        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `ref`, `pic`) VALUES ('{\"uk\":\"Телефони та аксесуари\",\"ru\":\"Телефоны и аксесуары\"}','smartphones-mobiles-accessories','1.svg')");
+        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `ref`, `pic`) VALUES ('{\"uk\":\"Ноутбуки, компьютери та мфу\",\"ru\":\"Ноутбуки, компьютеры та мфу\"}','notes','2.svg')");
+        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `ref`, `pic`) VALUES ('{\"uk\":\"ТВ та електроніка\",\"ru\":\"ТВ и электроника\"}','tv','3.svg')");
+        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `ref`, `pic`) VALUES ('{\"uk\":\"Аудіо техніка\",\"ru\":\"Аудио техника\"}','audio','4.svg')");
+        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `ref`, `pic`) VALUES ('{\"uk\":\"Побутова техніка\",\"ru\":\"Бытовая техника\"}','appliances','5.svg')");
+        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `ref`, `pic`) VALUES ('{\"uk\":\"Сантехніка\",\"ru\":\"Сантехника\"}','plumbing','6.svg')");
+        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `ref`, `pic`) VALUES ('{\"uk\":\"Автотовари\",\"ru\":\"Автотовары\"}','auto','7.svg')");
+        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `ref`, `pic`) VALUES ('{\"uk\":\"Велотовари\",\"ru\":\"Велотовары\"}','bicycles','8.svg')");
+        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `ref`, `pic`) VALUES ('{\"uk\":\"Канцтовари\",\"ru\":\"Канцтовары\"}','stationery','9.svg')");
+        await queryRunner.query("INSERT INTO `shop`.`categories` (`name`, `ref`, `pic`) VALUES ('{\"uk\":\"Сад і город\",\"ru\":\"Сад и огород\"}','garden','10.svg')");
+        await queryRunner.query("INSERT INTO `shop`.`groups` (`name`, `ref`, `categoryId`) VALUES ('{\"uk\":\"Телефони\",\"ru\":\"Телефоны\"}','phones',1)");
+        await queryRunner.query("INSERT INTO `shop`.`subgroups` (`name`, `ref`, `pic`, `groupId`) VALUES ('{\"uk\":\"Смартфони\",\"ru\":\"Смартфоны\"}','smartphones','1.jpg',1)");
+        await queryRunner.query("INSERT INTO `shop`.`subgroups` (`name`, `ref`, `pic`, `groupId`) VALUES ('{\"uk\":\"Мобільні телефони\",\"ru\":\"Мобильные телефоны\"}','mobiles','2.jpg',1)");
+        await queryRunner.query("INSERT INTO `shop`.`subgroups` (`name`, `ref`, `pic`, `groupId`) VALUES ('{\"uk\":\"Офісні телефони\",\"ru\":\"Офисные телефоны\"}','landline-phones','3.jpg',1)");
+        await queryRunner.query("INSERT INTO `shop`.`states` (`name`) VALUES ('{\"uk\":\"В наявності\",\"ru\":\"В наличии\"}')");
+        await queryRunner.query("INSERT INTO `shop`.`states` (`name`) VALUES ('{\"uk\":\"Закінчується\",\"ru\":\"Заканчивается\"}')");
+        await queryRunner.query("INSERT INTO `shop`.`states` (`name`) VALUES ('{\"uk\":\"Під замовлення\",\"ru\":\"Под заказ\"}')");
+        await queryRunner.query("INSERT INTO `shop`.`states` (`name`) VALUES ('{\"uk\":\"Закінчився\",\"ru\":\"Закончился\"}')");
+        await queryRunner.query("INSERT INTO `shop`.`props` (`name`) VALUES ('{\"uk\":\"Бренд\",\"ru\":\"Бренд\"}')");
+        await queryRunner.query("INSERT INTO `shop`.`props` (`name`) VALUES ('{\"uk\":\"Об''єм вбудованої пам''яті\",\"ru\":\"Объем встроенной памяти\"}')");
         await queryRunner.query("INSERT INTO `shop`.`propdetails` (`id`, `name`, `propId`) VALUES ('brand-apple','Apple',1)");
         await queryRunner.query("INSERT INTO `shop`.`propdetails` (`id`, `name`, `propId`) VALUES ('brand-samsung','Samsung',1)");
         await queryRunner.query("INSERT INTO `shop`.`propdetails` (`id`, `name`, `propId`) VALUES ('brand-xiaomi','Xiaomi',1)");
@@ -27,18 +33,19 @@ export class seeds1676555917679 implements MigrationInterface {
         await queryRunner.query("INSERT INTO `shop`.`propdetails` (`id`, `name`, `propId`) VALUES ('brand-sigma','Sigma',1)");
         await queryRunner.query("INSERT INTO `shop`.`propdetails` (`id`, `name`, `propId`) VALUES ('ram-val_4gb','4 Гб',2)");
         await queryRunner.query("INSERT INTO `shop`.`propdetails` (`id`, `name`, `propId`) VALUES ('ram-val_6gb','6 Гб',2)");
-        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `groupId`) VALUES (1,'Sigma Comfort 50 Optima (Black)',15,99900,129900,'1.webp',2)");
-        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `groupId`) VALUES (2,'Sigma X-style 18 Track (Black/Red)',3,349900,389900,'2.webp',2)");
-        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `groupId`) VALUES (3,'Nokia 105 Single Sim 2019 Black NOCHGR',2,199900,0,'3.webp',2)");
-        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `groupId`) VALUES (4,'Samsung Galaxy A52 A525F 4/128GB Black (SM-A525FZKDSEK)',2,120000,0,'4.webp',1)");
-        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `groupId`) VALUES (5,'Apple iPhone 12 64GB Purple',3,150055,229900,'5.webp',1)");
-        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `groupId`) VALUES (6,'Apple iPhone 11 64Gb Black (MHDA3) Slim Box',3,289900,0,'6.webp',1)");
-        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `groupId`) VALUES (7,'Samsung Galaxy A12 2021 A125F 4/64GB Blue',1,449900,0,'7.webp',1)");
-        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `groupId`) VALUES (8,'Samsung Galaxy A12 2021 A125F 4/64GB Blue-2',5,479900,549900,'8.webp',1)");
-        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `groupId`) VALUES (9,'Xiaomi Redmi Note 9 4/128Gb (Forest Green)',3,849900,0,'9.webp',1)");
-        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `groupId`) VALUES (10,'Samsung Galaxy M12 2021 M127F 4/64GB Green',10,399900,0,'10.webp',1)");
-        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `groupId`) VALUES (11,'Xiaomi Redmi Note 8 2021 4/64GB (White)',7,899900,0,'11.webp',1)");
-        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `groupId`) VALUES (12,'Xiaomi Redmi 9T 4/64GB (Carbon Gray)',4,529900,0,'12.webp',1)");
+        await queryRunner.query("INSERT INTO `shop`.`firms` (`name`, `ipn`, `phone`, `email`) VALUES ('Nice',111111111111,'0633821947', 'sv.sergius@gmail.com')");
+        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (1,'{\"uk\":\"Sigma Comfort 50 Optima (Black)\"}',15,99900,129900,'1.webp',1,1,2)");
+        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (2,'{\"uk\":\"Sigma X-style 18 Track (Black/Red)\"}',3,349900,389900,'2.webp',1,1,2)");
+        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (3,'{\"uk\":\"Nokia 105 Single Sim 2019 Black NOCHGR\"}',2,199900,0,'3.webp',1,1,2)");
+        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (4,'{\"uk\":\"Samsung Galaxy A52 A525F 4/128GB Black (SM-A525FZKDSEK)\"}',2,120000,0,'4.webp',1,1,1)");
+        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (5,'{\"uk\":\"Apple iPhone 12 64GB Purple\"}',3,150055,229900,'5.webp',1,1,1)");
+        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (6,'{\"uk\":\"Apple iPhone 11 64Gb Black (MHDA3) Slim Box\"}',3,289900,0,'6.webp',1,1,1)");
+        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (7,'{\"uk\":\"Samsung Galaxy A12 2021 A125F 4/64GB Blue\"}',1,449900,0,'7.webp',1,1,1)");
+        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (8,'{\"uk\":\"Samsung Galaxy A12 2021 A125F 4/64GB Blue-2\"}',5,479900,549900,'8.webp',1,1,1)");
+        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (9,'{\"uk\":\"Xiaomi Redmi Note 9 4/128Gb (Forest Green)\"}',3,849900,0,'9.webp',1,1,1)");
+        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (10,'{\"uk\":\"Samsung Galaxy M12 2021 M127F 4/64GB Green\"}',10,399900,0,'10.webp',1,1,1)");
+        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (11,'{\"uk\":\"Xiaomi Redmi Note 8 2021 4/64GB (White)\"}',7,899900,0,'11.webp',1,1,1)");
+        await queryRunner.query("INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (12,'{\"uk\":\"Xiaomi Redmi 9T 4/64GB (Carbon Gray)\"}',4,529900,0,'12.webp',1,1,1)");
         await queryRunner.query("INSERT INTO `shop`.`productinfo` (`value`, `propId`, `propdetailId`, `productId`) VALUES ('Sigma',1,'brand-sigma',1)");
         await queryRunner.query("INSERT INTO `shop`.`productinfo` (`value`, `propId`, `propdetailId`, `productId`) VALUES ('Sigma',1,'brand-sigma',2)");
         await queryRunner.query("INSERT INTO `shop`.`productinfo` (`value`, `propId`, `propdetailId`, `productId`) VALUES ('Nokia',1,'brand-nokia',3)");
@@ -105,6 +112,7 @@ export class seeds1676555917679 implements MigrationInterface {
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query("DELETE FROM `shop`.`roles` WHERE (`name`='USER')");
+        await queryRunner.query("DELETE FROM `shop`.`roles` WHERE (`name`='EDITOR')");
         await queryRunner.query("DELETE FROM `shop`.`roles` WHERE (`name`='ADMIN')");
         await queryRunner.query("DELETE FROM `shop`.`productpics` WHERE (`pic`='3eace06a7b6489a88d5ecc790f3758e4.jpg')");
         await queryRunner.query("DELETE FROM `shop`.`productpics` WHERE (`pic`='4d34454e8a08da933497d0a4ffc877ea.jpg')");
@@ -154,6 +162,11 @@ export class seeds1676555917679 implements MigrationInterface {
         await queryRunner.query("DELETE FROM `shop`.`products` WHERE (`name`='Samsung Galaxy M12 2021 M127F 4/64GB Green')");
         await queryRunner.query("DELETE FROM `shop`.`products` WHERE (`name`='Xiaomi Redmi Note 8 2021 4/64GB (White)')");
         await queryRunner.query("DELETE FROM `shop`.`products` WHERE (`name`='Xiaomi Redmi 9T 4/64GB (Carbon Gray)')");
+        await queryRunner.query("DELETE FROM `shop`.`firms` WHERE (`name`='Nice')");
+        await queryRunner.query("DELETE FROM `shop`.`states` WHERE (`name`='В наявності')");
+        await queryRunner.query("DELETE FROM `shop`.`states` WHERE (`name`='Закінчується')");
+        await queryRunner.query("DELETE FROM `shop`.`states` WHERE (`name`='Під замовлення')");
+        await queryRunner.query("DELETE FROM `shop`.`states` WHERE (`name`='Закінчився')");
         await queryRunner.query("DELETE FROM `shop`.`propdetails` WHERE (`id`='barand-apple')");
         await queryRunner.query("DELETE FROM `shop`.`propdetails` WHERE (`id`='brand-samsung')");
         await queryRunner.query("DELETE FROM `shop`.`propdetails` WHERE (`id`='brand-xiaomi')");
@@ -163,9 +176,10 @@ export class seeds1676555917679 implements MigrationInterface {
         await queryRunner.query("DELETE FROM `shop`.`propdetails` WHERE (`id`='ram-val_6gb')");
         await queryRunner.query("DELETE FROM `shop`.`props` WHERE (`name`='Бренд')");
         await queryRunner.query("DELETE FROM `shop`.`props` WHERE (`name`='Об\"єм вбудованої пам\"яті')");
-        await queryRunner.query("DELETE FROM `shop`.`groups` WHERE (`name`='Смартфони')");
-        await queryRunner.query("DELETE FROM `shop`.`groups` WHERE (`name`='Мобільні телефони')");
-        await queryRunner.query("DELETE FROM `shop`.`groups` WHERE (`name`='Офісні телефони')");
+        await queryRunner.query("DELETE FROM `shop`.`subgroups` WHERE (`name`='Смартфони')");
+        await queryRunner.query("DELETE FROM `shop`.`subgroups` WHERE (`name`='Мобільні телефони')");
+        await queryRunner.query("DELETE FROM `shop`.`subgroups` WHERE (`name`='Офісні телефони')");
+        await queryRunner.query("DELETE FROM `shop`.`groups` WHERE (`name`='Телефони')");
         await queryRunner.query("DELETE FROM `shop`.`categories` WHERE (`name`='Телефони та аксесуари')");
         await queryRunner.query("DELETE FROM `shop`.`categories` WHERE (`name`='Ноутбуки, компьютери та мфу')");
         await queryRunner.query("DELETE FROM `shop`.`categories` WHERE (`name`='ТВ та електроніка')");

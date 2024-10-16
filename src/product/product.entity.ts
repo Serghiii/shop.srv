@@ -1,8 +1,10 @@
-import { Group } from "../group/group.entity";
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { State } from "../state/state.entity";
 import { CartDetails } from "../cartdetails/cartdetails.entity";
 import { ProductInfo } from "../productinfo/productinfo.entity";
 import { ProductPics } from "src/productpics/productpics.entity";
+import { Firm } from "../firm/firm.entity";
+import { SubGroup } from "../subgroup/subgroup.entity";
 
 
 @Entity({ name: "products" })
@@ -26,6 +28,12 @@ export class Product {
    @Column({ type: 'integer', default: 0 })
    priceold: number;
 
+   @Column({ type: 'integer', default: 0 })
+   dcount: number; // discount count
+
+   @Column({ type: 'integer', default: 0 })
+   dpercent: number; // discount percent
+
    @Column({ type: 'varchar' })
    pic: string;
 
@@ -36,8 +44,14 @@ export class Product {
    @UpdateDateColumn()
    updatedAt: Date;
 
-   @ManyToOne(() => Group, group => group.products, { nullable: false })
-   group: Group;
+   @ManyToOne(() => Firm, firm => firm.product, { nullable: false, onDelete: 'CASCADE' })
+   firm: Firm;
+
+   @ManyToOne(() => State, state => state.products, { nullable: false })
+   state: State;
+
+   @ManyToOne(() => SubGroup, subgroup => subgroup.product, { nullable: false })
+   subgroup: SubGroup;
 
    @OneToMany(() => CartDetails, cartdetails => cartdetails.product)
    cartdetails: CartDetails[];
