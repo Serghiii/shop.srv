@@ -11,9 +11,13 @@ export default {
       user_banned: 'User banned',
       login_password_not_corrected: 'Incorrect username or password',
       create_user_error: 'Can not create user',
+      create_order_error: 'Can not create order',
       activate_user_error: 'Unable to activate user',
       phone_change_error: 'Failed to change phone',
       password_change_error: 'Failed to change password',
+   },
+   firm: {
+      firm_not_found: 'Firm not found',
    },
    mail: {
       activation_on: 'Account activation on ',

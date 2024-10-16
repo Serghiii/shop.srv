@@ -10,6 +10,9 @@ import { ProductInfoModule } from '../productinfo/productinfo.module';
     TypeOrmModule.forFeature([Product]),
     ProductInfoModule
   ],
+  exports: [
+    ProductService
+  ],
   providers: [ProductService],
   controllers: [ProductController]
 })

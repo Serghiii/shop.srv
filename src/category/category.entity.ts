@@ -10,9 +10,6 @@ export class Category {
    @Column({ type: 'varchar', unique: true })
    name: string;
 
-   @Column({ type: 'varchar', unique: true })
-   name_ru: string;
-
    @Column({ type: 'varchar' })
    ref: string;
 

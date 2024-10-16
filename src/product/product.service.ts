@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { Group } from '../group/group.entity';
+import { SubGroup } from '../subgroup/subgroup.entity';
 import { Brackets, DataSource, In, Repository } from 'typeorm';
 import { Product } from './product.entity';
 import { ProductInfo } from '../productinfo/productinfo.entity';
@@ -18,8 +18,8 @@ export class ProductService {
          relations: ["productinfo", "productinfo.propdetail"]
       }
       let opt2 = {
-         where: { id, group: { ref } },
-         relations: ["group", "productpics", "productinfo", "productinfo.propdetail"]
+         where: { id, subgroup: { ref } },
+         relations: ["subgroup", "productpics", "productinfo", "productinfo.propdetail"]
       }
       return await this.productRepository.find(ref.length ? opt2 : opt1)
    }
@@ -88,19 +88,21 @@ export class ProductService {
 
       const qb = this.productRepository
          .createQueryBuilder("pr")
+         .select(['pr.id', 'pr.code', 'pr.name', 'pr.amount', 'pr.price', 'pr.priceold', 'pr.dcount', 'pr.dpercent', 'pr.pic', 'pfi.id'])
          .where(qb => {
             const subQuery = qb.subQuery()
-               .select('gr.id')
-               .from(Group, 'gr')
-               .where('gr.ref = :value', { value: ref })
+               .select('sgr.id')
+               .from(SubGroup, 'sgr')
+               .where('sgr.ref = :value', { value: ref })
                .getQuery();
-            return 'pr.groupId = ' + subQuery;
+            return 'pr.subgroupId = ' + subQuery;
          })
       if (cond.length) {
          qb.andWhere(
             'pr.id in (' + pri.getQuery() + ')'
          )
       }
+      qb.leftJoin('pr.firm', 'pfi')
       qb.leftJoinAndSelect('pr.productinfo', 'pri')
       qb.leftJoinAndSelect('pri.propdetail', 'prd')
       const results = await qb.offset(q.skip * 2).limit(q.limit * 2).getMany();
@@ -110,11 +112,11 @@ export class ProductService {
          .select('count (*) as count')
          .where(qb => {
             const subQuery = qb.subQuery()
-               .select('gr.id')
-               .from(Group, 'gr')
-               .where('gr.ref = :value', { value: ref })
+               .select('sgr.id')
+               .from(SubGroup, 'sgr')
+               .where('sgr.ref = :value', { value: ref })
                .getQuery();
-            return 'pr.groupId = ' + subQuery;
+            return 'pr.subgroupId = ' + subQuery;
          })
       if (cond.length) {
          qbc.andWhere(
@@ -136,7 +138,7 @@ export class ProductService {
 
    async getNewProducts(limit: number): Promise<Product[]> {
       return this.productRepository.find({
-         relations: ["group", "productinfo", "productinfo.propdetail"],
+         relations: ["subgroup", "productinfo", "productinfo.propdetail"],
          order: {
             updatedAt: 'DESC'
          },
@@ -163,18 +165,18 @@ export class ProductService {
 
       const pra = this.productRepository
          .createQueryBuilder("pr")
-         .select('props.id as id, props.name as name, props.name_ru as name_ru, pri.propdetailId as prop, pri.value as propname')
+         .select('props.id as id, props.name as name, pri.propdetailId as prop, pri.value as propname')
          .leftJoin('pr.productinfo', 'pri')
          .leftJoin('pri.prop', 'props', 'pri.prop=props.id')
          .where(qb => {
             const subQuery = qb.subQuery()
-               .select('gr.id')
-               .from(Group, 'gr')
-               .where('gr.ref = "' + ref + '"')
+               .select('sgr.id')
+               .from(SubGroup, 'sgr')
+               .where('sgr.ref = "' + ref + '"')
                .getQuery();
-            return 'pr.groupId = ' + subQuery;
+            return 'pr.subgroupId = ' + subQuery;
          })
-      pra.groupBy('pri.propdetail')
+         pra.groupBy('prop, propname, id')
 
       const prbsq = this.productRepository
          .createQueryBuilder("pr")
@@ -187,11 +189,11 @@ export class ProductService {
 
       prbsq.where(qb => {
          const subQuery = qb.subQuery()
-            .select('gr.id')
-            .from(Group, 'gr')
-            .where('gr.ref = "' + ref + '"')
+            .select('sgr.id')
+            .from(SubGroup, 'sgr')
+            .where('sgr.ref = "' + ref + '"')
             .getQuery();
-         return 'pr.groupId = ' + subQuery;
+         return 'pr.subgroupId = ' + subQuery;
       })
 
       if (gcond.length) {
@@ -239,11 +241,11 @@ export class ProductService {
          .leftJoin('pri.prop', 'props', 'pri.prop=props.id')
          .where(qb => {
             const subQuery = qb.subQuery()
-               .select('gr.id')
-               .from(Group, 'gr')
-               .where('gr.ref = "' + ref + '"')
+               .select('sgr.id')
+               .from(SubGroup, 'sgr')
+               .where('sgr.ref = "' + ref + '"')
                .getQuery();
-            return 'pr.groupId = ' + subQuery;
+            return 'pr.subgroupId = ' + subQuery;
          })
       if (gcond.length > 0) {
          prb.andWhere('pr.id in (' + prbsq.getQuery() + ')')
@@ -252,7 +254,7 @@ export class ProductService {
 
       return this.datasource.manager
          .createQueryBuilder()
-         .select("pr_a.Id as id, pr_a.name as name, pr_a.name_ru as name_ru, pr_a.prop as prop, pr_a.propname as propname, ifnull(pr_b.count, 0) as count")
+         .select("pr_a.Id as id, pr_a.name as name, pr_a.prop as prop, pr_a.propname as propname, ifnull(pr_b.count, 0) as count")
          .from("(" + pra.getQuery() + ")", "pr_a")
          .leftJoin("(" + prb.getQuery() + ")", "pr_b", "pr_a.prop = pr_b.prop")
          .orderBy('name, propname')
@@ -300,8 +302,14 @@ export class ProductService {
             amount: true,
             price: true,
             priceold: true,
-            pic: true
+            dcount: true,
+            dpercent: true,
+            pic: true,
+            firm: {
+               id: true
+             }
          },
+         relations: { firm: true },
          where: { id: In(Ids) }
       })
    }

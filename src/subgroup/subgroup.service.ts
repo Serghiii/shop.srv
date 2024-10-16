@@ -1,26 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Group } from './group.entity';
+import { SubGroup } from './subgroup.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class GroupService {
+export class SubGroupService {
     constructor(
-        @InjectRepository(Group) private groupRepository: Repository<Group>,
+        @InjectRepository(SubGroup) private subgroupRepository: Repository<SubGroup>,
     ) { }
 
-    async getAllGroups() {
-        return await this.groupRepository.find({
+    async getAllSubGroups() {
+        return await this.subgroupRepository.find({
             select: {
                 id: true,
                 name: true,
                 ref: true,
                 pic: true,
-                category: {
+                group: {
                     id: true
                 }
             },
-            relations: { category: true }
+            relations: { group: true },
         })
     }
 }

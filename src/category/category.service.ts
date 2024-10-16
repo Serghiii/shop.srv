@@ -10,6 +10,6 @@ export class CategoryService {
    ) { }
 
    async getAllCategories() {
-      return await this.categoryRepository.find();
+      return await this.categoryRepository.find()
    }
 }
