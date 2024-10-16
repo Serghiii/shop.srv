@@ -1,9 +1,9 @@
-import { start1676555474294 } from "./migrations/1676555474294-start"
-import { seeds1676555917679 } from "./migrations/1676555917679-seeds"
+import { Start1729538226935 } from "./migrations/1729538226935-start"
+import { Seeds1729538237200 } from "./migrations/1729538237200-seeds"
 
 const Migrations = [
-   start1676555474294,
-   seeds1676555917679
+   Start1729538226935,
+   Seeds1729538237200
 ]
 
 export default Migrations

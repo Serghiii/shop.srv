@@ -1,8 +1,10 @@
-import { Group } from "../group/group.entity";
 import { Column, CreateDateColumn, Entity, Index, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Group } from "../group/group.entity";
+import { State } from "../state/state.entity";
 import { CartDetails } from "../cartdetails/cartdetails.entity";
 import { ProductInfo } from "../productinfo/productinfo.entity";
 import { ProductPics } from "src/productpics/productpics.entity";
+import { Firm } from "../firm/firm.entity";
 
 
 @Entity({ name: "products" })
@@ -35,6 +37,12 @@ export class Product {
    @Index('updatedAt-idx')
    @UpdateDateColumn()
    updatedAt: Date;
+
+   @ManyToOne(() => Firm, firm => firm.product, { nullable: false, onDelete: 'CASCADE' })
+   firm: Firm;
+
+   @ManyToOne(() => State, state => state.products, { nullable: false })
+   state: State;
 
    @ManyToOne(() => Group, group => group.products, { nullable: false })
    group: Group;
