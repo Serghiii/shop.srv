@@ -19,8 +19,12 @@ import { ProductpicsModule } from "./productpics/productpics.module"
 import { ProfileModule } from "./profile/profile.module"
 import { PropModule } from "./prop/prop.module"
 import { PropdetailModule } from "./propdetail/propdetail.module"
+import { FirmModule } from './firm/firm.module'
 import { RoleModule } from "./role/role.module"
 import { UserModule } from "./user/user.module"
+import { StateModule } from './state/state.module'
+import { OrderModule } from './order/order.module'
+import { OrderdetailsModule } from './orderdetails/orderdetails.module'
 
 @Module({
   imports: [
@@ -56,6 +60,10 @@ import { UserModule } from "./user/user.module"
     PropdetailModule,
     RoleModule,
     UserModule,
+    FirmModule,
+    StateModule,
+    OrderModule,
+    OrderdetailsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

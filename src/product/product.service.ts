@@ -174,7 +174,7 @@ export class ProductService {
                .getQuery();
             return 'pr.groupId = ' + subQuery;
          })
-      pra.groupBy('pri.propdetail')
+         pra.groupBy('prop, propname, id')
 
       const prbsq = this.productRepository
          .createQueryBuilder("pr")
@@ -300,8 +300,14 @@ export class ProductService {
             amount: true,
             price: true,
             priceold: true,
-            pic: true
+            dcount: true,
+            dpercent: true,
+            pic: true,
+            firm: {
+               id: true
+             }
          },
+         relations: { firm: true },
          where: { id: In(Ids) }
       })
    }
