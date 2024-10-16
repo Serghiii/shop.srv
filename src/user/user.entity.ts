@@ -1,6 +1,7 @@
 import { Activation } from "../activation/activation.entity";
 import { Ban } from "../ban/ban.entity";
 import { Cart } from "../cart/cart.entity";
+import { Firm } from "../firm/firm.entity";
 import { Profile } from "../profile/profile.entity";
 import { Role } from "../role/role.entity";
 import { Column, CreateDateColumn, Entity, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
@@ -34,6 +35,10 @@ export class User {
    @ManyToMany(() => Role, role => role.users)
    @JoinTable()
    roles: Role[];
+
+   @ManyToMany(() => Firm, firm => firm.users)
+   @JoinTable()
+   firms: Firm[];
 
    @OneToOne(() => Activation, activation => activation.user)
    activation: Activation;
