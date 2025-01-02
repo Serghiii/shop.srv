@@ -1,30 +1,28 @@
-import { IsInt, IsNumber, IsNumberString, IsString } from "class-validator"
+import { IsInt, IsNumber, IsNumberString, IsString } from 'class-validator'
 
 export class OrderDetailsDto {
+	@IsNumberString()
+	readonly id: number
 
-    @IsNumberString()
-    readonly id: number
+	@IsNumber()
+	@IsInt()
+	readonly code: number
 
-    @IsNumber()
-    @IsInt()
-    readonly code: number
+	@IsString()
+	readonly name: string
 
-    @IsString({ message: 'Повинно буди строкою' })
-    readonly name: string
+	@IsNumber()
+	@IsInt()
+	readonly amount: number
 
-    @IsNumber()
-    @IsInt()
-    readonly amount: number
+	@IsNumber()
+	@IsInt()
+	readonly sum: number
 
-    @IsNumber()
-    @IsInt()
-    readonly sum: number
+	@IsNumber()
+	@IsInt()
+	readonly discount: number
 
-    @IsNumber()
-    @IsInt()
-    readonly discount: number
-
-    @IsNumberString()
-    readonly firmid: number
-
+	@IsNumberString()
+	readonly firmid: number
 }

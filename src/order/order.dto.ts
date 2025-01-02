@@ -1,16 +1,19 @@
-import { IsString, IsArray, ArrayMinSize, ValidateNested } from "class-validator";
-import { OrderDetailsDto } from "../orderdetails/orderdetails.dto";
-import { Type } from "class-transformer";
+import { Type } from 'class-transformer'
+import {
+	ArrayMinSize,
+	IsArray,
+	IsString,
+	ValidateNested
+} from 'class-validator'
+import { OrderDetailsDto } from '../orderdetails/orderdetails.dto'
 
 export class OrderDto {
+	@IsString()
+	readonly details: string
 
-    @IsString({ message: 'Повинно буди строкою' })
-    readonly details: string
-
-    @IsArray({ message: 'Повинно буди массивом' })
-    @ArrayMinSize(1, { message: 'Массив не має бути порожнім'})
-    @ValidateNested({ each: true })
-    @Type(() => OrderDetailsDto)
-    readonly odetails: OrderDetailsDto[]
-    
+	@IsArray()
+	@ArrayMinSize(1)
+	@ValidateNested({ each: true })
+	@Type(() => OrderDetailsDto)
+	readonly odetails: OrderDetailsDto[]
 }
