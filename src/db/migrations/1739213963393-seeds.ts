@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
-export class Seeds1734099046356 implements MigrationInterface {
+export class Seeds1739213963393 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.query(
 			"INSERT INTO `shop`.`roles` (`name`, `description`) VALUES ('USER', 'Користувач')"

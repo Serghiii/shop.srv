@@ -39,7 +39,7 @@ export class GoogleService {
 			throw new UnauthorizedException({
 				statusCode: HttpStatus.UNAUTHORIZED,
 				message: en.messages.user_not_verified,
-				error: 'messages.user_not_verified'
+				messageId: 'messages.user_not_verified'
 			})
 		const user = await this.userService.getUserByMail(
 			tokenInfo.email ? tokenInfo.email : ''
@@ -62,7 +62,7 @@ export class GoogleService {
 					{
 						statusCode: HttpStatus.NOT_FOUND,
 						message: en.messages.user_not_found,
-						error: 'messages.user_not_found'
+						messageId: 'messages.user_not_found'
 					},
 					HttpStatus.NOT_FOUND
 				)

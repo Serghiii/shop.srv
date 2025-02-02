@@ -58,12 +58,12 @@ export class UserService {
 				}
 				return res
 			})
-		} catch (e) {
+		} catch {
 			throw new HttpException(
 				{
 					statusCode: HttpStatus.BAD_REQUEST,
 					message: en.messages.create_user_error,
-					error: 'messages.create_user_error'
+					messageId: 'messages.create_user_error'
 				},
 				HttpStatus.BAD_REQUEST
 			)
@@ -74,12 +74,12 @@ export class UserService {
 		try {
 			user.active = true
 			return await this.userRepository.save(user)
-		} catch (e) {
+		} catch {
 			throw new HttpException(
 				{
 					statusCode: HttpStatus.BAD_REQUEST,
 					message: en.messages.activate_user_error,
-					error: 'messages.activate_user_error'
+					messageId: 'messages.activate_user_error'
 				},
 				HttpStatus.BAD_REQUEST
 			)
@@ -91,12 +91,12 @@ export class UserService {
 			const user = await this.userRepository.findOneByOrFail({ id })
 			user.password = await bcrypt.hash(password, 5)
 			return await this.userRepository.save(user)
-		} catch (e) {
+		} catch {
 			throw new HttpException(
 				{
 					statusCode: HttpStatus.BAD_REQUEST,
 					message: en.messages.password_change_error,
-					error: 'messages.password_change_error'
+					messageId: 'messages.password_change_error'
 				},
 				HttpStatus.BAD_REQUEST
 			)
@@ -108,12 +108,12 @@ export class UserService {
 			const user = await this.userRepository.findOneByOrFail({ id })
 			user.phone = phone
 			return await this.userRepository.save(user)
-		} catch (e) {
+		} catch {
 			throw new HttpException(
 				{
 					statusCode: HttpStatus.BAD_REQUEST,
 					message: en.messages.phone_change_error,
-					error: 'messages.phone_change_error'
+					messageId: 'messages.phone_change_error'
 				},
 				HttpStatus.BAD_REQUEST
 			)
@@ -186,12 +186,12 @@ export class UserService {
 			user.roles.push(role)
 			this.userRepository.save(user)
 			return dto
-		} catch (e) {
+		} catch {
 			throw new HttpException(
 				{
 					statusCode: HttpStatus.NOT_FOUND,
 					message: en.messages.role_not_found,
-					error: 'messages.role_not_found'
+					messageId: 'messages.role_not_found'
 				},
 				HttpStatus.NOT_FOUND
 			)
@@ -208,7 +208,7 @@ export class UserService {
 				{
 					statusCode: HttpStatus.NOT_FOUND,
 					message: en.messages.user_not_found,
-					error: 'messages.user_not_found'
+					messageId: 'messages.user_not_found'
 				},
 				HttpStatus.NOT_FOUND
 			)
@@ -218,7 +218,7 @@ export class UserService {
 				{
 					statusCode: HttpStatus.BAD_REQUEST,
 					message: en.messages.user_banned,
-					error: 'messages.user_banned'
+					messageId: 'messages.user_banned'
 				},
 				HttpStatus.BAD_REQUEST
 			)

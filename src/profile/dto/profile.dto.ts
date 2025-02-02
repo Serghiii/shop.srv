@@ -1,4 +1,5 @@
 import { IsOptional, IsString, MaxLength } from 'class-validator'
+import { EnumGender } from '../profile.entity'
 
 export class ProfileDto {
 	@MaxLength(50)
@@ -6,7 +7,7 @@ export class ProfileDto {
 	readonly name: string
 	@MaxLength(1)
 	@IsString()
-	readonly gender: string
+	readonly gender: EnumGender
 	@IsOptional()
 	@IsString()
 	readonly phone?: string

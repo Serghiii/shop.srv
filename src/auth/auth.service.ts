@@ -26,33 +26,36 @@ export class AuthService {
 	public async validateUser(username: string, password: string) {
 		const user = await this.userService.getUserByLogin(username, username)
 		if (user) {
-			const passwordEquals = await bcrypt.compare(password, user.password)
+			const passwordEquals = await bcrypt.compare(
+				password,
+				user.password ? user.password : ''
+			)
 			if (passwordEquals) {
 				if (!user.active)
 					throw new UnauthorizedException({
 						statusCode: HttpStatus.UNAUTHORIZED,
 						message: en.messages.user_not_activated,
-						error: 'messages.user_not_activated'
+						messageId: 'messages.user_not_activated'
 					})
 				if (user.ban)
 					throw new UnauthorizedException({
 						statusCode: HttpStatus.UNAUTHORIZED,
 						message: en.messages.user_banned,
-						error: 'messages.user_banned'
+						messageId: 'messages.user_banned'
 					})
 				return user
 			} else {
 				throw new UnauthorizedException({
 					statusCode: HttpStatus.UNAUTHORIZED,
 					message: en.messages.password_not_corrected,
-					error: 'messages.password_not_corrected'
+					messageId: 'messages.password_not_corrected'
 				})
 			}
 		} else {
 			throw new UnauthorizedException({
 				statusCode: HttpStatus.UNAUTHORIZED,
 				message: en.messages.user_not_found,
-				error: 'messages.login_user_not_found'
+				messageId: 'messages.user_not_found'
 			})
 		}
 	}
@@ -75,7 +78,7 @@ export class AuthService {
 		throw new UnauthorizedException({
 			statusCode: HttpStatus.UNAUTHORIZED,
 			message: en.messages.user_not_activated,
-			error: 'messages.user_not_activated'
+			messageId: 'messages.user_not_activated'
 		})
 	}
 

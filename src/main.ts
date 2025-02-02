@@ -4,6 +4,7 @@ import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import * as cookieParser from 'cookie-parser'
 import { json, urlencoded } from 'express'
+import helmet from 'helmet'
 import { join } from 'path'
 import { AppModule } from './app.module'
 // import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -15,6 +16,14 @@ async function bootstrap() {
 	// app.enableVersioning({
 	//   type: VersioningType.URI,
 	// });
+	if (process.env.NODE_ENV === 'production') {
+		app.use(
+			helmet({
+				crossOriginResourcePolicy: { policy: 'cross-origin' },
+				crossOriginEmbedderPolicy: false
+			})
+		)
+	}
 	app.enableCors({
 		origin: [process.env.CORS_ORIGIN || ''],
 		methods: ['GET', 'POST'],

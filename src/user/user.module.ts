@@ -1,6 +1,5 @@
 import { forwardRef, Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { ActivationModule } from '../activation/activation.module'
 import { AuthModule } from '../auth/auth.module'
 import { BanModule } from '../ban/ban.module'
 import { MailModule } from '../mail/mail.module'
@@ -15,7 +14,6 @@ import { UserService } from './user.service'
 		TypeOrmModule.forFeature([User]),
 		RoleModule,
 		ProfileModule,
-		ActivationModule,
 		BanModule,
 		MailModule,
 		forwardRef(() => AuthModule)

@@ -1,9 +1,4 @@
-import { Activation } from '../activation/activation.entity'
-import { Ban } from '../ban/ban.entity'
-import { Cart } from '../cart/cart.entity'
-import { Firm } from '../firm/firm.entity'
-import { Profile } from '../profile/profile.entity'
-import { Role } from '../role/role.entity'
+import { Exclude } from 'class-transformer'
 import {
 	Column,
 	CreateDateColumn,
@@ -14,7 +9,11 @@ import {
 	PrimaryGeneratedColumn,
 	UpdateDateColumn
 } from 'typeorm'
-import { Exclude } from 'class-transformer'
+import { Ban } from '../ban/ban.entity'
+import { Cart } from '../cart/cart.entity'
+import { Firm } from '../firm/firm.entity'
+import { Profile } from '../profile/profile.entity'
+import { Role } from '../role/role.entity'
 
 @Entity({ name: 'users' })
 export class User {
@@ -28,8 +27,8 @@ export class User {
 	email: string
 
 	@Exclude()
-	@Column({ type: 'varchar' })
-	password: string
+	@Column({ type: 'varchar', nullable: true })
+	password?: string
 
 	@Column({ type: 'boolean', default: false })
 	active: boolean
@@ -47,9 +46,6 @@ export class User {
 	@ManyToMany(() => Firm, (firm) => firm.users)
 	@JoinTable()
 	firms: Firm[]
-
-	@OneToOne(() => Activation, (activation) => activation.user)
-	activation: Activation
 
 	@OneToOne(() => Profile, (profile) => profile.user)
 	profile: Profile

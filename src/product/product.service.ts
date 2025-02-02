@@ -1,132 +1,189 @@
-import { Injectable } from '@nestjs/common';
-import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { SubGroup } from '../subgroup/subgroup.entity';
-import { Brackets, DataSource, In, Repository } from 'typeorm';
-import { Product } from './product.entity';
-import { ProductInfo } from '../productinfo/productinfo.entity';
+import { Injectable } from '@nestjs/common'
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm'
+import { Brackets, DataSource, In, Repository } from 'typeorm'
+import { ProductInfo } from '../productinfo/productinfo.entity'
+import { SubGroup } from '../subgroup/subgroup.entity'
+import { Product } from './product.entity'
 
 @Injectable()
 export class ProductService {
-   constructor(
-      @InjectDataSource() private datasource: DataSource,
-      @InjectRepository(Product) private productRepository: Repository<Product>
-   ) { }
+	constructor(
+		@InjectDataSource() private datasource: DataSource,
+		@InjectRepository(Product) private productRepository: Repository<Product>
+	) {}
 
-   async getOne(id: number, ref: string = ''): Promise<any> {
-      let opt1 = {
-         where: { id },
-         relations: ["productinfo", "productinfo.propdetail"]
-      }
-      let opt2 = {
-         where: { id, subgroup: { ref } },
-         relations: ["subgroup", "productpics", "productinfo", "productinfo.propdetail"]
-      }
-      return await this.productRepository.find(ref.length ? opt2 : opt1)
-   }
+	async getOne(id: number, ref: string = ''): Promise<any> {
+		let opt1 = {
+			where: { id },
+			relations: ['productinfo', 'productinfo.propdetail']
+		}
+		let opt2 = {
+			where: { id, subgroup: { ref } },
+			relations: [
+				'subgroup',
+				'productpics',
+				'productinfo',
+				'productinfo.propdetail',
+				'firm'
+			]
+		}
+		return await this.productRepository.find(ref.length ? opt2 : opt1)
+	}
 
-   async getAll(ref: string, q: any): Promise<{ results: Product[], count: number }> {
-      let cond: string[] = []
+	async getAll(
+		ref: string,
+		q: any
+	): Promise<{ results: Product[]; count: number }> {
+		let cond: string[] = []
 
-      for (let key in q) {
-         if (key.toLowerCase() !== 'skip' && key.toLowerCase() !== 'limit') {
-            cond.push(key)
-         }
-      }
-      cond.sort((a: string, b: string) => a > b ? 1 : -1)
+		for (let key in q) {
+			if (key.toLowerCase() !== 'skip' && key.toLowerCase() !== 'limit') {
+				cond.push(key)
+			}
+		}
+		cond.sort((a: string, b: string) => (a > b ? 1 : -1))
 
-      const pri = this.datasource.manager
-         .createQueryBuilder()
-         .select("distinct pri.productId as Id")
-         .from(ProductInfo, 'pri')
-      cond.forEach((el: string) => {
-         const dt: string[] = el.split("-")
-         if (dt.length) {
-            for (let i = 1; i < dt.length; i++) {
-               pri.leftJoin(ProductInfo, dt[0] + dt[i], 'pri.productId=' + dt[0] + dt[i] + '.productId')
-            }
-         }
-      })
-      let first: boolean = true
-      cond.forEach((el: string) => {
-         if (first) {
-            first = false
-            pri.where(new Brackets(
-               qb => {
-                  const dt: string[] = el.split("-")
-                  if (dt.length) {
-                     let first: boolean = true
-                     for (let i = 1; i < dt.length; i++) {
-                        if (first) {
-                           first = false
-                           qb.where(dt[0] + dt[i] + '.propdetailId="' + dt[0] + '-' + dt[i] + '"')
-                        } else {
-                           qb.orWhere(dt[0] + dt[i] + '.propdetailId="' + dt[0] + '-' + dt[i] + '"')
-                        }
-                     }
-                  }
-               }
-            ))
-         } else {
-            pri.andWhere(new Brackets(
-               qb => {
-                  const dt: string[] = el.split("-")
-                  if (dt.length) {
-                     let first: boolean = true
-                     for (let i = 1; i < dt.length; i++) {
-                        if (first) {
-                           first = false
-                           qb.where(dt[0] + dt[i] + '.propdetailId="' + dt[0] + '-' + dt[i] + '"')
-                        } else {
-                           qb.orWhere(dt[0] + dt[i] + '.propdetailId="' + dt[0] + '-' + dt[i] + '"')
-                        }
-                     }
-                  }
-               }
-            ))
-         }
-      })
+		const pri = this.datasource.manager
+			.createQueryBuilder()
+			.select('distinct pri.productId as Id')
+			.from(ProductInfo, 'pri')
+		cond.forEach((el: string) => {
+			const dt: string[] = el.split('-')
+			if (dt.length) {
+				for (let i = 1; i < dt.length; i++) {
+					pri.leftJoin(
+						ProductInfo,
+						dt[0] + dt[i],
+						'pri.productId=' + dt[0] + dt[i] + '.productId'
+					)
+				}
+			}
+		})
+		let first: boolean = true
+		cond.forEach((el: string) => {
+			if (first) {
+				first = false
+				pri.where(
+					new Brackets((qb) => {
+						const dt: string[] = el.split('-')
+						if (dt.length) {
+							let first: boolean = true
+							for (let i = 1; i < dt.length; i++) {
+								if (first) {
+									first = false
+									qb.where(
+										dt[0] +
+											dt[i] +
+											'.propdetailId="' +
+											dt[0] +
+											'-' +
+											dt[i] +
+											'"'
+									)
+								} else {
+									qb.orWhere(
+										dt[0] +
+											dt[i] +
+											'.propdetailId="' +
+											dt[0] +
+											'-' +
+											dt[i] +
+											'"'
+									)
+								}
+							}
+						}
+					})
+				)
+			} else {
+				pri.andWhere(
+					new Brackets((qb) => {
+						const dt: string[] = el.split('-')
+						if (dt.length) {
+							let first: boolean = true
+							for (let i = 1; i < dt.length; i++) {
+								if (first) {
+									first = false
+									qb.where(
+										dt[0] +
+											dt[i] +
+											'.propdetailId="' +
+											dt[0] +
+											'-' +
+											dt[i] +
+											'"'
+									)
+								} else {
+									qb.orWhere(
+										dt[0] +
+											dt[i] +
+											'.propdetailId="' +
+											dt[0] +
+											'-' +
+											dt[i] +
+											'"'
+									)
+								}
+							}
+						}
+					})
+				)
+			}
+		})
 
-      const qb = this.productRepository
-         .createQueryBuilder("pr")
-         .select(['pr.id', 'pr.code', 'pr.name', 'pr.amount', 'pr.price', 'pr.priceold', 'pr.dcount', 'pr.dpercent', 'pr.pic', 'pfi.id'])
-         .where(qb => {
-            const subQuery = qb.subQuery()
-               .select('sgr.id')
-               .from(SubGroup, 'sgr')
-               .where('sgr.ref = :value', { value: ref })
-               .getQuery();
-            return 'pr.subgroupId = ' + subQuery;
-         })
-      if (cond.length) {
-         qb.andWhere(
-            'pr.id in (' + pri.getQuery() + ')'
-         )
-      }
-      qb.leftJoin('pr.firm', 'pfi')
-      qb.leftJoinAndSelect('pr.productinfo', 'pri')
-      qb.leftJoinAndSelect('pri.propdetail', 'prd')
-      const results = await qb.offset(q.skip * 2).limit(q.limit * 2).getMany();
+		const qb = this.productRepository
+			.createQueryBuilder('pr')
+			.select([
+				'pr.id',
+				'pr.code',
+				'pr.name',
+				'pr.amount',
+				'pr.price',
+				'pr.priceold',
+				'pr.dcount',
+				'pr.dpercent',
+				'pr.pic',
+				'pfi.id'
+			])
+			.where((qb) => {
+				const subQuery = qb
+					.subQuery()
+					.select('sgr.id')
+					.from(SubGroup, 'sgr')
+					.where('sgr.ref = :value', { value: ref })
+					.getQuery()
+				return 'pr.subgroupId = ' + subQuery
+			})
+		if (cond.length) {
+			qb.andWhere('pr.id in (' + pri.getQuery() + ')')
+		}
+		qb.leftJoin('pr.firm', 'pfi')
+		qb.leftJoinAndSelect('pr.productinfo', 'pri')
+		qb.leftJoinAndSelect('pri.propdetail', 'prd')
+		const results = await qb
+			.offset(q.skip * 2)
+			.limit(q.limit * 2)
+			.getMany()
 
-      const qbc = this.productRepository
-         .createQueryBuilder("pr")
-         .select('count (*) as count')
-         .where(qb => {
-            const subQuery = qb.subQuery()
-               .select('sgr.id')
-               .from(SubGroup, 'sgr')
-               .where('sgr.ref = :value', { value: ref })
-               .getQuery();
-            return 'pr.subgroupId = ' + subQuery;
-         })
-      if (cond.length) {
-         qbc.andWhere(
-            'pr.id in (' + pri.getQuery() + ')'
-         )
-      }
-      const count = await qbc.getRawMany();
+		const qbc = this.productRepository
+			.createQueryBuilder('pr')
+			.select('count (*) as count')
+			.where((qb) => {
+				const subQuery = qb
+					.subQuery()
+					.select('sgr.id')
+					.from(SubGroup, 'sgr')
+					.where('sgr.ref = :value', { value: ref })
+					.getQuery()
+				return 'pr.subgroupId = ' + subQuery
+			})
+		if (cond.length) {
+			qbc.andWhere('pr.id in (' + pri.getQuery() + ')')
+		}
+		const count = await qbc.getRawMany()
 
-      return { results, count: count[0].count }
-      /*
+		return { results, count: count[0].count }
+		/*
       SELECT distinct pri.productId as Id
       FROM shop.productinfo as pri
       left join(shop.productinfo as pri_a, shop.productinfo as pri_b, shop.productinfo as pri_c)
@@ -134,133 +191,140 @@ export class ProductService {
       where pri.productId in (select pr.id as id from shop.products pr where pr.groupId = 1) and
       (pri_a.propdetailId = "brand-samsung" or pri_b.propdetailId = "brand-apple") and pri_c.propdetailId = "ram-val_4gb"         
       */
-   }
+	}
 
-   async getNewProducts(limit: number): Promise<Product[]> {
-      return this.productRepository.find({
-         relations: ["subgroup", "productinfo", "productinfo.propdetail"],
-         order: {
-            updatedAt: 'DESC'
-         },
-         take: limit
-      });
-   }
+	async getNewProducts(limit: number): Promise<Product[]> {
+		return this.productRepository.find({
+			relations: ['subgroup', 'productinfo', 'productinfo.propdetail'],
+			order: {
+				updatedAt: 'DESC'
+			},
+			take: limit
+		})
+	}
 
-   async getFilters(ref: string, q: {}): Promise<any> {
-      let cond: string[] = []
-      for (let key in q) {
-         cond.push(key)
-      }
-      cond.sort((a: string, b: string) => a > b ? 1 : -1)
+	async getFilters(ref: string, q: {}): Promise<any> {
+		let cond: string[] = []
+		for (let key in q) {
+			cond.push(key)
+		}
+		cond.sort((a: string, b: string) => (a > b ? 1 : -1))
 
-      let gcond: [[]] | any = []
-      let tmpEl: any;
-      cond.forEach((el: any) => {
-         if (!el.includes(tmpEl)) {
-            tmpEl = el.split('-')[0]
-            let newGcond = cond.filter((item: any) => item.includes(tmpEl))
-            gcond.push([tmpEl, [...newGcond]])
-         }
-      });
+		let gcond: [[]] | any = []
+		let tmpEl: any
+		cond.forEach((el: any) => {
+			if (!el.includes(tmpEl)) {
+				tmpEl = el.split('-')[0]
+				let newGcond = cond.filter((item: any) => item.includes(tmpEl))
+				gcond.push([tmpEl, [...newGcond]])
+			}
+		})
 
-      const pra = this.productRepository
-         .createQueryBuilder("pr")
-         .select('props.id as id, props.name as name, pri.propdetailId as prop, pri.value as propname')
-         .leftJoin('pr.productinfo', 'pri')
-         .leftJoin('pri.prop', 'props', 'pri.prop=props.id')
-         .where(qb => {
-            const subQuery = qb.subQuery()
-               .select('sgr.id')
-               .from(SubGroup, 'sgr')
-               .where('sgr.ref = "' + ref + '"')
-               .getQuery();
-            return 'pr.subgroupId = ' + subQuery;
-         })
-         pra.groupBy('prop, propname, id')
+		const pra = this.productRepository
+			.createQueryBuilder('pr')
+			.select(
+				'props.id as id, props.name as name, pri.propdetailId as prop, pri.value as propname'
+			)
+			.leftJoin('pr.productinfo', 'pri')
+			.leftJoin('pri.prop', 'props', 'pri.prop=props.id')
+			.where((qb) => {
+				const subQuery = qb
+					.subQuery()
+					.select('sgr.id')
+					.from(SubGroup, 'sgr')
+					.where('sgr.ref = "' + ref + '"')
+					.getQuery()
+				return 'pr.subgroupId = ' + subQuery
+			})
+		pra.groupBy('prop, propname, id')
 
-      const prbsq = this.productRepository
-         .createQueryBuilder("pr")
-         .select('pri.productId as Id')
-         .leftJoin('pr.productinfo', 'pri')
+		const prbsq = this.productRepository
+			.createQueryBuilder('pr')
+			.select('pri.productId as Id')
+			.leftJoin('pr.productinfo', 'pri')
 
-      for (let index = 1; index < gcond.length; index++) {
-         prbsq.leftJoin('pr.productinfo', gcond[index][0])
-      }
+		for (let index = 1; index < gcond.length; index++) {
+			prbsq.leftJoin('pr.productinfo', gcond[index][0])
+		}
 
-      prbsq.where(qb => {
-         const subQuery = qb.subQuery()
-            .select('sgr.id')
-            .from(SubGroup, 'sgr')
-            .where('sgr.ref = "' + ref + '"')
-            .getQuery();
-         return 'pr.subgroupId = ' + subQuery;
-      })
+		prbsq.where((qb) => {
+			const subQuery = qb
+				.subQuery()
+				.select('sgr.id')
+				.from(SubGroup, 'sgr')
+				.where('sgr.ref = "' + ref + '"')
+				.getQuery()
+			return 'pr.subgroupId = ' + subQuery
+		})
 
-      if (gcond.length) {
-         let first: boolean = true
-         gcond.forEach((el: any[]) => {
-            if (first) {
-               first = false
-               prbsq.andWhere(new Brackets(
-                  qb => {
-                     let first2: boolean = true
-                     el[1].forEach((el2: any) => {
-                        if (first2) {
-                           first2 = false
-                           qb.where(`pri.propdetailId = "${el2}"`)
-                        } else {
-                           qb.orWhere(`pri.propdetailId = "${el2}"`)
-                        }
-                     });
-                  }
-               ))
-            } else {
-               prbsq.andWhere(new Brackets(
-                  qb => {
-                     let first2: boolean = true
-                     el[1].forEach((el2: any) => {
-                        if (first2) {
-                           first2 = false
-                           qb.where(`${el[0]}.propdetailId = "${el2}"`)
-                        } else {
-                           qb.orWhere(`${el[0]}.propdetailId = "${el2}"`)
-                        }
-                     });
-                  }
-               ))
-            }
-         })
-      }
+		if (gcond.length) {
+			let first: boolean = true
+			gcond.forEach((el: any[]) => {
+				if (first) {
+					first = false
+					prbsq.andWhere(
+						new Brackets((qb) => {
+							let first2: boolean = true
+							el[1].forEach((el2: any) => {
+								if (first2) {
+									first2 = false
+									qb.where(`pri.propdetailId = "${el2}"`)
+								} else {
+									qb.orWhere(`pri.propdetailId = "${el2}"`)
+								}
+							})
+						})
+					)
+				} else {
+					prbsq.andWhere(
+						new Brackets((qb) => {
+							let first2: boolean = true
+							el[1].forEach((el2: any) => {
+								if (first2) {
+									first2 = false
+									qb.where(`${el[0]}.propdetailId = "${el2}"`)
+								} else {
+									qb.orWhere(`${el[0]}.propdetailId = "${el2}"`)
+								}
+							})
+						})
+					)
+				}
+			})
+		}
 
-      prbsq.groupBy('pri.productId')
+		prbsq.groupBy('pri.productId')
 
-      const prb = this.productRepository
-         .createQueryBuilder("pr")
-         .select('pri.propdetailId as prop, count(pri.productId) as count')
-         .leftJoin('pr.productinfo', 'pri')
-         .leftJoin('pri.prop', 'props', 'pri.prop=props.id')
-         .where(qb => {
-            const subQuery = qb.subQuery()
-               .select('sgr.id')
-               .from(SubGroup, 'sgr')
-               .where('sgr.ref = "' + ref + '"')
-               .getQuery();
-            return 'pr.subgroupId = ' + subQuery;
-         })
-      if (gcond.length > 0) {
-         prb.andWhere('pr.id in (' + prbsq.getQuery() + ')')
-      }
-      prb.groupBy('pri.propdetail')
+		const prb = this.productRepository
+			.createQueryBuilder('pr')
+			.select('pri.propdetailId as prop, count(pri.productId) as count')
+			.leftJoin('pr.productinfo', 'pri')
+			.leftJoin('pri.prop', 'props', 'pri.prop=props.id')
+			.where((qb) => {
+				const subQuery = qb
+					.subQuery()
+					.select('sgr.id')
+					.from(SubGroup, 'sgr')
+					.where('sgr.ref = "' + ref + '"')
+					.getQuery()
+				return 'pr.subgroupId = ' + subQuery
+			})
+		if (gcond.length > 0) {
+			prb.andWhere('pr.id in (' + prbsq.getQuery() + ')')
+		}
+		prb.groupBy('pri.propdetail')
 
-      return this.datasource.manager
-         .createQueryBuilder()
-         .select("pr_a.Id as id, pr_a.name as name, pr_a.prop as prop, pr_a.propname as propname, ifnull(pr_b.count, 0) as count")
-         .from("(" + pra.getQuery() + ")", "pr_a")
-         .leftJoin("(" + prb.getQuery() + ")", "pr_b", "pr_a.prop = pr_b.prop")
-         .orderBy('name, propname')
-         .getRawMany()
+		return this.datasource.manager
+			.createQueryBuilder()
+			.select(
+				'pr_a.Id as id, pr_a.name as name, pr_a.prop as prop, pr_a.propname as propname, ifnull(pr_b.count, 0) as count'
+			)
+			.from('(' + pra.getQuery() + ')', 'pr_a')
+			.leftJoin('(' + prb.getQuery() + ')', 'pr_b', 'pr_a.prop = pr_b.prop')
+			.orderBy('name, propname')
+			.getRawMany()
 
-      /*
+		/*
       select pr_a.Id as id, pr_a.name as name, pr_a.prop as prop, pr_a.propname as propname, pr_b.count as count
       from (
          select props.Id as Id, props.name as name, pri.propdetailId as prop, pri.value as propname
@@ -290,28 +354,26 @@ export class ProductService {
       on (pr_a.prop = pr_b.prop)
       order by name, propname      
       */
+	}
 
-   }
-
-   async getCarts(Ids: number[]): Promise<Product[]> {
-      return await this.productRepository.find({
-         select: {
-            id: true,
-            code: true,
-            name: true,
-            amount: true,
-            price: true,
-            priceold: true,
-            dcount: true,
-            dpercent: true,
-            pic: true,
-            firm: {
-               id: true
-             }
-         },
-         relations: { firm: true },
-         where: { id: In(Ids) }
-      })
-   }
-
+	async getCarts(Ids: number[]): Promise<Product[]> {
+		return await this.productRepository.find({
+			select: {
+				id: true,
+				code: true,
+				name: true,
+				amount: true,
+				price: true,
+				priceold: true,
+				dcount: true,
+				dpercent: true,
+				pic: true,
+				firm: {
+					id: true
+				}
+			},
+			relations: { firm: true },
+			where: { id: In(Ids) }
+		})
+	}
 }

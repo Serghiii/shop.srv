@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config'
 import dataSource from './db/datasource'
 // import { ServeStaticModule } from '@nestjs/serve-static'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { ActivationModule } from './activation/activation.module'
 import { AuthModule } from './auth/auth.module'
 import { BanModule } from './ban/ban.module'
 import { CartModule } from './cart/cart.module'
@@ -44,7 +43,6 @@ import { UserModule } from './user/user.module'
 			migrationsRun: process.env.MIGRATIONS_RUN === 'true',
 			synchronize: process.env.SYNCHRONIZE === 'true'
 		}),
-		ActivationModule,
 		AuthModule,
 		BanModule,
 		CartModule,

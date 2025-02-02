@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
-import * as path from 'path'
 import * as fs from 'fs'
+import * as path from 'path'
 import en from '../locals/en'
 
 @Injectable()
@@ -20,12 +20,12 @@ export class FileService {
 			// });
 			fs.writeFileSync(path.join(Path, fileName), data)
 			return path.join(Path, fileName)
-		} catch (e) {
+		} catch {
 			throw new HttpException(
 				{
 					statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
 					message: en.file.write_error,
-					error: 'file.write_error'
+					messageId: 'file.write_error'
 				},
 				HttpStatus.INTERNAL_SERVER_ERROR
 			)
@@ -36,12 +36,12 @@ export class FileService {
 		try {
 			const Path = await path.resolve(__dirname, '../..', filePath)
 			fs.unlinkSync(path.join(Path, fileName))
-		} catch (e) {
+		} catch {
 			throw new HttpException(
 				{
 					statusCode: HttpStatus.INTERNAL_SERVER_ERROR,
 					message: en.file.delete_error,
-					error: 'file.delete_error'
+					messageId: 'file.delete_error'
 				},
 				HttpStatus.INTERNAL_SERVER_ERROR
 			)

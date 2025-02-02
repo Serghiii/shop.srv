@@ -1,4 +1,3 @@
-import { User } from '../user/user.entity'
 import {
 	Column,
 	Entity,
@@ -6,6 +5,12 @@ import {
 	OneToOne,
 	PrimaryGeneratedColumn
 } from 'typeorm'
+import { User } from '../user/user.entity'
+
+export enum EnumGender {
+	male,
+	female
+}
 
 @Entity({ name: 'profiles' })
 export class Profile {
@@ -15,8 +20,8 @@ export class Profile {
 	@Column({ type: 'varchar', length: 50 })
 	name: string
 
-	@Column({ type: 'varchar', length: 1, nullable: true })
-	gender: string
+	@Column({ type: 'enum', enum: EnumGender, nullable: true })
+	gender: EnumGender
 
 	@Column({ type: 'varchar', nullable: true })
 	avatar?: string
