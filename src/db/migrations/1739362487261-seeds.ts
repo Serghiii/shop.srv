@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from 'typeorm'
 
-export class Seeds1739213963393 implements MigrationInterface {
+export class Seeds1739362487261 implements MigrationInterface {
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.query(
 			"INSERT INTO `shop`.`roles` (`name`, `description`) VALUES ('USER', 'Користувач')"
@@ -72,18 +72,6 @@ export class Seeds1739213963393 implements MigrationInterface {
 			'INSERT INTO `shop`.`subgroups` (`name`, `ref`, `pic`, `groupId`) VALUES (\'{"uk":"Портативна акустика","ru":"Портативная акустика"}\',\'portable-acoustics\',\'3.jpg\',2)'
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`states` (`name`) VALUES (\'{"uk":"В наявності","ru":"В наличии"}\')'
-		)
-		await queryRunner.query(
-			'INSERT INTO `shop`.`states` (`name`) VALUES (\'{"uk":"Закінчується","ru":"Заканчивается"}\')'
-		)
-		await queryRunner.query(
-			'INSERT INTO `shop`.`states` (`name`) VALUES (\'{"uk":"Під замовлення","ru":"Под заказ"}\')'
-		)
-		await queryRunner.query(
-			'INSERT INTO `shop`.`states` (`name`) VALUES (\'{"uk":"Закінчився","ru":"Закончился"}\')'
-		)
-		await queryRunner.query(
 			'INSERT INTO `shop`.`props` (`name`) VALUES (\'{"uk":"Бренд","ru":"Бренд"}\')'
 		)
 		await queryRunner.query(
@@ -114,40 +102,40 @@ export class Seeds1739213963393 implements MigrationInterface {
 			"INSERT INTO `shop`.`firms` (`name`, `ipn`, `phone`, `email`) VALUES ('Nice',111111111111,'0633821947', 'sv.sergius@gmail.com')"
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (1,\'{"uk":"Sigma Comfort 50 Optima (Black)"}\',15,99900,129900,\'1.webp\',1,1,2)'
+			"INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `imgs`, `state`, `firmId`, `subgroupId`) VALUES (1,'{\"uk\":\"Sigma Comfort 50 Optima (Black)\"}',15,99900,129900,'1.webp','1.jpg','0',1,2)"
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (2,\'{"uk":"Sigma X-style 18 Track (Black/Red)"}\',3,349900,389900,\'2.webp\',1,1,2)'
+			"INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `imgs`, `state`, `firmId`, `subgroupId`) VALUES (2,'{\"uk\":\"Sigma X-style 18 Track (Black/Red)\"}',3,349900,389900,'2.webp','2.jpg','0',1,2)"
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (3,\'{"uk":"Nokia 105 Single Sim 2019 Black NOCHGR"}\',2,199900,0,\'3.webp\',1,1,2)'
+			"INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `imgs`, `state`, `firmId`, `subgroupId`) VALUES (3,'{\"uk\":\"Nokia 105 Single Sim 2019 Black NOCHGR\"}',2,199900,0,'3.webp','3.jpg','0',1,2)"
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (4,\'{"uk":"Samsung Galaxy A52 A525F 4/128GB Black (SM-A525FZKDSEK)"}\',2,120000,0,\'4.webp\',1,1,1)'
+			"INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `imgs`, `state`, `firmId`, `subgroupId`) VALUES (4,'{\"uk\":\"Samsung Galaxy A52 A525F 4/128GB Black (SM-A525FZKDSEK)\"}',2,120000,0,'4.webp','85cd9a79ecf7409f15e5031e39536d48.jpg,5fe4217dfceb0a74c640a2e6d7badc6f.jpg,0304c6b0fd95a1b9d42c1c43288b0298.jpg,c72a970d3e7c9e5afb5a5be1384019dd.jpg,1ed5c2cdb65e73fbd52ac21a63115bba.jpg','0',1,1)"
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (5,\'{"uk":"Apple iPhone 12 64GB Purple"}\',3,150055,229900,\'5.webp\',1,1,1)'
+			"INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `imgs`, `state`, `firmId`, `subgroupId`) VALUES (5,'{\"uk\":\"Apple iPhone 12 64GB Purple\"}',3,150055,229900,'5.webp','4304fca57a7b0459f70a77c21150ce7a.jpg,b00bb036b569ee5a0a626b53bebc78e2.jpg,870fabd5c921869a71548a6a30e379ec.jpg','0',1,1)"
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (6,\'{"uk":"Apple iPhone 11 64Gb Black (MHDA3) Slim Box"}\',3,289900,0,\'6.webp\',1,1,1)'
+			"INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `imgs`, `state`, `firmId`, `subgroupId`) VALUES (6,'{\"uk\":\"Apple iPhone 11 64Gb Black (MHDA3) Slim Box\"}',3,289900,0,'6.webp','4304fca57a7b0459f70a77c21150ce7a.jpg,b00bb036b569ee5a0a626b53bebc78e2.jpg,870fabd5c921869a71548a6a30e379ec.jpg','0',1,1)"
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (7,\'{"uk":"Samsung Galaxy A12 2021 A125F 4/64GB Blue"}\',1,449900,0,\'7.webp\',1,1,1)'
+			"INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `imgs`, `state`, `firmId`, `subgroupId`) VALUES (7,'{\"uk\":\"Samsung Galaxy A12 2021 A125F 4/64GB Blue\"}',1,449900,0,'7.webp','85cd9a79ecf7409f15e5031e39536d48.jpg,5fe4217dfceb0a74c640a2e6d7badc6f.jpg,0304c6b0fd95a1b9d42c1c43288b0298.jpg,c72a970d3e7c9e5afb5a5be1384019dd.jpg,1ed5c2cdb65e73fbd52ac21a63115bba.jpg','0',1,1)"
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (8,\'{"uk":"Samsung Galaxy A12 2021 A125F 4/64GB Blue-2"}\',5,479900,549900,\'8.webp\',1,1,1)'
+			"INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `imgs`, `state`, `firmId`, `subgroupId`) VALUES (8,'{\"uk\":\"Samsung Galaxy A12 2021 A125F 4/64GB Blue-2\"}',5,479900,549900,'8.webp','85cd9a79ecf7409f15e5031e39536d48.jpg,5fe4217dfceb0a74c640a2e6d7badc6f.jpg,0304c6b0fd95a1b9d42c1c43288b0298.jpg,c72a970d3e7c9e5afb5a5be1384019dd.jpg,1ed5c2cdb65e73fbd52ac21a63115bba.jpg','0',1,1)"
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (9,\'{"uk":"Xiaomi Redmi Note 9 4/128Gb (Forest Green)"}\',3,849900,0,\'9.webp\',1,1,1)'
+			"INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `imgs`, `state`, `firmId`, `subgroupId`) VALUES (9,'{\"uk\":\"Xiaomi Redmi Note 9 4/128Gb (Forest Green)\"}',3,849900,0,'9.webp','3eace06a7b6489a88d5ecc790f3758e4.jpg,4d34454e8a08da933497d0a4ffc877ea.jpg,006d4a46fed01f5df724aeb1a9cf8fcf.jpg,3124a5a5e926859d73c96f111086ed5c.jpg','0',1,1)"
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (10,\'{"uk":"Samsung Galaxy M12 2021 M127F 4/64GB Green"}\',10,399900,0,\'10.webp\',1,1,1)'
+			"INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `imgs`, `state`, `firmId`, `subgroupId`) VALUES (10,'{\"uk\":\"Samsung Galaxy M12 2021 M127F 4/64GB Green\"}',10,399900,0,'10.webp','85cd9a79ecf7409f15e5031e39536d48.jpg,5fe4217dfceb0a74c640a2e6d7badc6f.jpg,0304c6b0fd95a1b9d42c1c43288b0298.jpg,c72a970d3e7c9e5afb5a5be1384019dd.jpg,1ed5c2cdb65e73fbd52ac21a63115bba.jpg','0',1,1)"
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (11,\'{"uk":"Xiaomi Redmi Note 8 2021 4/64GB (White)"}\',7,899900,0,\'11.webp\',1,1,1)'
+			"INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `imgs`, `state`, `firmId`, `subgroupId`) VALUES (11,'{\"uk\":\"Xiaomi Redmi Note 8 2021 4/64GB (White)\"}',7,899900,0,'11.webp','3eace06a7b6489a88d5ecc790f3758e4.jpg,4d34454e8a08da933497d0a4ffc877ea.jpg,006d4a46fed01f5df724aeb1a9cf8fcf.jpg,3124a5a5e926859d73c96f111086ed5c.jpg','0',1,1)"
 		)
 		await queryRunner.query(
-			'INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `firmId`, `stateId`, `subgroupId`) VALUES (12,\'{"uk":"Xiaomi Redmi 9T 4/64GB (Carbon Gray)"}\',4,529900,0,\'12.webp\',1,1,1)'
+			"INSERT INTO `shop`.`products` (`code`, `name`, `amount`, `price`, `priceold`, `pic`, `imgs`, `state`, `firmId`, `subgroupId`) VALUES (12,'{\"uk\":\"Xiaomi Redmi 9T 4/64GB (Carbon Gray)\"}',4,529900,0,'12.webp','3eace06a7b6489a88d5ecc790f3758e4.jpg,4d34454e8a08da933497d0a4ffc877ea.jpg,006d4a46fed01f5df724aeb1a9cf8fcf.jpg,3124a5a5e926859d73c96f111086ed5c.jpg','0',1,1)"
 		)
 		await queryRunner.query(
 			"INSERT INTO `shop`.`productinfo` (`value`, `propId`, `propdetailId`, `productId`) VALUES ('Sigma',1,'brand-sigma',1)"
@@ -212,129 +200,6 @@ export class Seeds1739213963393 implements MigrationInterface {
 		await queryRunner.query(
 			"INSERT INTO `shop`.`productinfo` (`value`, `propId`, `propdetailId`, `productId`) VALUES ('4 Гб',2,'ram-val_4gb',12)"
 		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('1.jpg',1)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('2.jpg',2)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('3.jpg',3)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('85cd9a79ecf7409f15e5031e39536d48.jpg',4)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('5fe4217dfceb0a74c640a2e6d7badc6f.jpg',4)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('0304c6b0fd95a1b9d42c1c43288b0298.jpg',4)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('c72a970d3e7c9e5afb5a5be1384019dd.jpg',4)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('1ed5c2cdb65e73fbd52ac21a63115bba.jpg',4)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('85cd9a79ecf7409f15e5031e39536d48.jpg',7)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('5fe4217dfceb0a74c640a2e6d7badc6f.jpg',7)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('0304c6b0fd95a1b9d42c1c43288b0298.jpg',7)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('c72a970d3e7c9e5afb5a5be1384019dd.jpg',7)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('1ed5c2cdb65e73fbd52ac21a63115bba.jpg',7)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('85cd9a79ecf7409f15e5031e39536d48.jpg',8)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('5fe4217dfceb0a74c640a2e6d7badc6f.jpg',8)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('0304c6b0fd95a1b9d42c1c43288b0298.jpg',8)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('c72a970d3e7c9e5afb5a5be1384019dd.jpg',8)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('1ed5c2cdb65e73fbd52ac21a63115bba.jpg',8)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('85cd9a79ecf7409f15e5031e39536d48.jpg',10)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('5fe4217dfceb0a74c640a2e6d7badc6f.jpg',10)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('0304c6b0fd95a1b9d42c1c43288b0298.jpg',10)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('c72a970d3e7c9e5afb5a5be1384019dd.jpg',10)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('1ed5c2cdb65e73fbd52ac21a63115bba.jpg',10)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('4304fca57a7b0459f70a77c21150ce7a.jpg',5)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('b00bb036b569ee5a0a626b53bebc78e2.jpg',5)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('870fabd5c921869a71548a6a30e379ec.jpg',5)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('4304fca57a7b0459f70a77c21150ce7a.jpg',6)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('b00bb036b569ee5a0a626b53bebc78e2.jpg',6)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('870fabd5c921869a71548a6a30e379ec.jpg',6)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('3eace06a7b6489a88d5ecc790f3758e4.jpg',9)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('4d34454e8a08da933497d0a4ffc877ea.jpg',9)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('006d4a46fed01f5df724aeb1a9cf8fcf.jpg',9)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('3124a5a5e926859d73c96f111086ed5c.jpg',9)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('3eace06a7b6489a88d5ecc790f3758e4.jpg',11)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('4d34454e8a08da933497d0a4ffc877ea.jpg',11)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('006d4a46fed01f5df724aeb1a9cf8fcf.jpg',11)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('3124a5a5e926859d73c96f111086ed5c.jpg',11)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('3eace06a7b6489a88d5ecc790f3758e4.jpg',12)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('4d34454e8a08da933497d0a4ffc877ea.jpg',12)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('006d4a46fed01f5df724aeb1a9cf8fcf.jpg',12)"
-		)
-		await queryRunner.query(
-			"INSERT INTO `shop`.`productpics` (`pic`, `productId`) VALUES ('3124a5a5e926859d73c96f111086ed5c.jpg',12)"
-		)
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
@@ -346,51 +211,6 @@ export class Seeds1739213963393 implements MigrationInterface {
 		)
 		await queryRunner.query(
 			"DELETE FROM `shop`.`roles` WHERE (`name`='ADMIN')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='3eace06a7b6489a88d5ecc790f3758e4.jpg')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='4d34454e8a08da933497d0a4ffc877ea.jpg')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='006d4a46fed01f5df724aeb1a9cf8fcf.jpg')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='3124a5a5e926859d73c96f111086ed5c.jpg')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='4304fca57a7b0459f70a77c21150ce7a.jpg')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='b00bb036b569ee5a0a626b53bebc78e2.jpg')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='870fabd5c921869a71548a6a30e379ec.jpg')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='85cd9a79ecf7409f15e5031e39536d48.jpg')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='5fe4217dfceb0a74c640a2e6d7badc6f.jpg')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='0304c6b0fd95a1b9d42c1c43288b0298.jpg')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='c72a970d3e7c9e5afb5a5be1384019dd.jpg')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='1ed5c2cdb65e73fbd52ac21a63115bba.jpg')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='1.JPG')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='2.JPG')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`productpics` WHERE (`pic`='3.JPG')"
 		)
 		await queryRunner.query(
 			"DELETE FROM `shop`.`productinfo` WHERE (`propdetailId`='brand-samsung' AND `productId`=1)"
@@ -493,18 +313,6 @@ export class Seeds1739213963393 implements MigrationInterface {
 		)
 		await queryRunner.query(
 			"DELETE FROM `shop`.`firms` WHERE (`name`='Nice')"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`states` WHERE `name` LIKE '%В наявності%'"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`states` WHERE `name` LIKE '%Закінчується%'"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`states` WHERE `name` LIKE '%Під замовлення%'"
-		)
-		await queryRunner.query(
-			"DELETE FROM `shop`.`states` WHERE `name` LIKE '%Закінчився%'"
 		)
 		await queryRunner.query(
 			"DELETE FROM `shop`.`propdetails` WHERE (`id`='barand-apple')"

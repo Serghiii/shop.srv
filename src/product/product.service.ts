@@ -21,7 +21,6 @@ export class ProductService {
 			where: { id, subgroup: { ref } },
 			relations: [
 				'subgroup',
-				'productpics',
 				'productinfo',
 				'productinfo.propdetail',
 				'firm'

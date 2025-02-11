@@ -26,7 +26,7 @@ async function bootstrap() {
 	}
 	app.enableCors({
 		origin: [process.env.CORS_ORIGIN || ''],
-		methods: ['GET', 'POST'],
+		methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
 		credentials: true
 	})
 	app.useStaticAssets(join(__dirname, '..', 'static'), { prefix: '/static/' })

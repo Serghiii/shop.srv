@@ -3,11 +3,13 @@ import {
 	ClassSerializerInterceptor,
 	Controller,
 	Get,
-	Param,
+	HttpCode,
+	HttpStatus,
+	Patch,
 	Post,
+	Put,
 	Render,
 	Request,
-	Res,
 	UseGuards,
 	UseInterceptors
 } from '@nestjs/common'
@@ -42,6 +44,7 @@ export class UserController {
 	}
 
 	@hasRole('USER')
+	@HttpCode(HttpStatus.OK)
 	@Post('/profile')
 	@UseInterceptors(ClassSerializerInterceptor) // виключити пароль із відповіді
 	async getUserProfile(@Request() req: any) {
@@ -49,14 +52,14 @@ export class UserController {
 	}
 
 	@hasRole('USER')
-	@Post('/changepassword')
+	@Patch('/changepassword')
 	@UseInterceptors(ClassSerializerInterceptor) // виключити пароль із відповіді
 	async changePassword(@Request() req: any, @Body() { password }: any) {
-		return this.userService.updateUserPassword(req.user.id, password)
+		return await this.userService.updateUserPassword(req.user.id, password)
 	}
 
 	@hasRole('USER')
-	@Post('/changeprofile')
+	@Put('/changeprofile')
 	async changeProfile(@Request() req: any, @Body() profile: ProfileDto) {
 		if (profile.phone)
 			await this.userService.updateUserPhone(req.user.id, profile.phone)
@@ -67,7 +70,7 @@ export class UserController {
 	}
 
 	@hasRole('USER')
-	@Post('/changeavatar')
+	@Patch('/changeavatar')
 	async changeAvatar(@Request() req: any, @Body() profile: any) {
 		return await this.profileService.updateAvatar(
 			req.user.profile.id,

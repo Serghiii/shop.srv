@@ -8,12 +8,10 @@ import { Order } from '../order/order.entity'
 import { OrderDetails } from '../orderdetails/orderdetails.entity'
 import { Product } from '../product/product.entity'
 import { ProductInfo } from '../productinfo/productinfo.entity'
-import { ProductPics } from '../productpics/productpics.entity'
 import { Profile } from '../profile/profile.entity'
 import { Prop } from '../prop/prop.entity'
 import { PropDetail } from '../propdetail/propdetail.entity'
 import { Role } from '../role/role.entity'
-import { State } from '../state/state.entity'
 import { SubGroup } from '../subgroup/subgroup.entity'
 import { User } from '../user/user.entity'
 
@@ -23,12 +21,10 @@ const Entities = [
 	CartDetails,
 	Category,
 	Group,
-	State,
 	Order,
 	OrderDetails,
 	Product,
 	ProductInfo,
-	ProductPics,
 	Profile,
 	Prop,
 	PropDetail,

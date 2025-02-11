@@ -10,7 +10,7 @@ import {
 import { Firm } from '../firm/firm.entity'
 import { Order } from '../order/order.entity'
 
-export enum EnumOrderStatus {
+export enum EnumOrderState {
 	Panding,
 	Payed,
 	Shipped,
@@ -39,10 +39,10 @@ export class OrderDetails {
 
 	@Column({
 		type: 'enum',
-		enum: EnumOrderStatus,
-		default: EnumOrderStatus.Panding
+		enum: EnumOrderState,
+		default: EnumOrderState.Panding
 	})
-	status: EnumOrderStatus
+	state: EnumOrderState
 
 	@Column({ type: 'varchar', nullable: true })
 	comment: string
