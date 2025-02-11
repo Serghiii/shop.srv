@@ -8,11 +8,13 @@ export class JwtRegisterStrategy extends PassportStrategy(
 	Strategy,
 	'jwt-register'
 ) {
-	constructor(private readonly authService: AuthService) {
+	constructor(private authService: AuthService) {
 		super({
 			jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
 			ignoreExpiration: false,
-			secretOrKey: process.env.JWT_REGISTER_SECRET
+			secretOrKey:
+				process.env.JWT_REGISTER_SECRET ||
+				'pSHoZDNCauKwhSoDl2LcLZKnPdsYa9BuTSOkW7VlvA9FoEWTvoKaBOw9JAiKPkhFKxaObG6V9ZK7r1hTPtiuYwms'
 		})
 	}
 	async validate(payload: any) {

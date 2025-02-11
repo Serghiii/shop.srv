@@ -107,7 +107,6 @@ export class AuthService {
 			name: user.profile.name,
 			avatar: user.profile.avatar
 		}
-
 		const accessToken = await this.jwtService.signAsync({
 			data: encodePayload(payload)
 		})
@@ -118,7 +117,6 @@ export class AuthService {
 				secret: process.env.JWT_REFRESH_SECRET
 			}
 		)
-
 		res?.cookie(String(process.env.REFRESH_TOKEN_NAME), refreshToken, {
 			httpOnly: true,
 			maxAge: toMilliSeconds(String(process.env.JWT_REFRESH_EXPIRATION)),
@@ -126,7 +124,6 @@ export class AuthService {
 			secure: true,
 			path: '/'
 		})
-
 		return accessToken
 	}
 }

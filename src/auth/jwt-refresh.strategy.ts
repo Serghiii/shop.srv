@@ -17,11 +17,13 @@ export class JwtRefreshStrategy extends PassportStrategy(
 	Strategy,
 	'jwt-refresh'
 ) {
-	constructor(private readonly authService: AuthService) {
+	constructor(private authService: AuthService) {
 		super({
 			jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
 			ignoreExpiration: false,
-			secretOrKey: process.env.JWT_REFRESH_SECRET,
+			secretOrKey:
+				process.env.JWT_REFRESH_SECRET ||
+				'V83sQRDV9qpXw-MumuQOqprtcfihfOSlJdHaHFhgdeNfxyYufzvunfqfJYl6Z2Ju6ZfXG-RNux20AUFDR7KA8g',
 			passReqToCallback: false
 		})
 	}
