@@ -8,12 +8,17 @@ import {
 	PrimaryGeneratedColumn,
 	UpdateDateColumn
 } from 'typeorm'
-import { State } from '../state/state.entity'
 import { CartDetails } from '../cartdetails/cartdetails.entity'
-import { ProductInfo } from '../productinfo/productinfo.entity'
-import { ProductPics } from '../productpics/productpics.entity'
 import { Firm } from '../firm/firm.entity'
+import { ProductInfo } from '../productinfo/productinfo.entity'
 import { SubGroup } from '../subgroup/subgroup.entity'
+
+export enum EnumProductState {
+	InStock,
+	RuningOut,
+	OutOfStock,
+	ToOrder
+}
 
 @Entity({ name: 'products' })
 export class Product {
@@ -41,8 +46,18 @@ export class Product {
 	@Column({ type: 'integer', default: 0 })
 	dpercent: number // discount percent
 
-	@Column({ type: 'varchar' })
+	@Column({ type: 'varchar', nullable: true })
 	pic: string
+
+	@Column({ type: 'simple-array', nullable: true })
+	imgs: string[]
+
+	@Column({
+		type: 'enum',
+		enum: EnumProductState,
+		default: EnumProductState.InStock
+	})
+	state: EnumProductState
 
 	@CreateDateColumn()
 	createdAt: Date
@@ -57,9 +72,6 @@ export class Product {
 	})
 	firm: Firm
 
-	@ManyToOne(() => State, (state) => state.products, { nullable: false })
-	state: State
-
 	@ManyToOne(() => SubGroup, (subgroup) => subgroup.product, {
 		nullable: false
 	})
@@ -70,7 +82,4 @@ export class Product {
 
 	@OneToMany(() => ProductInfo, (productinfo) => productinfo.product)
 	productinfo: ProductInfo[]
-
-	@OneToMany(() => ProductPics, (productpics) => productpics.product)
-	productpics: ProductPics[]
 }

@@ -15,13 +15,11 @@ import { OrderModule } from './order/order.module'
 import { OrderdetailsModule } from './orderdetails/orderdetails.module'
 import { ProductModule } from './product/product.module'
 import { ProductInfoModule } from './productinfo/productinfo.module'
-import { ProductpicsModule } from './productpics/productpics.module'
 import { ProfileModule } from './profile/profile.module'
 import { PropModule } from './prop/prop.module'
 import { PropdetailModule } from './propdetail/propdetail.module'
 import { RoleModule } from './role/role.module'
 import { ServiceModule } from './service/service.module'
-import { StateModule } from './state/state.module'
 import { SubgroupModule } from './subgroup/subgroup.module'
 import { UserModule } from './user/user.module'
 
@@ -52,14 +50,12 @@ import { UserModule } from './user/user.module'
 		GroupModule,
 		ProductModule,
 		ProductInfoModule,
-		ProductpicsModule,
 		ProfileModule,
 		PropModule,
 		PropdetailModule,
 		RoleModule,
 		UserModule,
 		FirmModule,
-		StateModule,
 		OrderModule,
 		OrderdetailsModule,
 		SubgroupModule,
